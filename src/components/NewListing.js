@@ -4,6 +4,49 @@ import axios from 'axios';
 import { Notyf } from 'notyf';
 
 export default function NewListing() {
+  const [imageUrl, setImageUrl] = useState('');
+
+  const handleAddPhotos = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    fileInput.onchange = () => {
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        
+        // Set up the headers and FormData for the Imgur API request
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "Client-ID 0c5e90e2f7ed3a3");
+
+        const formdata = new FormData();
+        formdata.append("image", file);
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: formdata,
+          redirect: "follow"
+        };
+
+        // Upload the image and get the URL
+        fetch("https://api.imgur.com/3/image", requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            if (result.success) {
+              setImageUrl(result.data.link); // Store the image URL in the state
+              console.log("Image URL:", result.data.link);
+            } else {
+              console.error("Failed to upload image:", result);
+            }
+          })
+          .catch(error => console.error("Error:", error));
+      }
+    };
+
+    fileInput.click();
+  };
+  
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       window.location.href = '/login';
@@ -46,7 +89,7 @@ export default function NewListing() {
       tags,
       price: Number(price),
       donation,
-      photos: [],
+      photos: [imageUrl],
       user_id: localStorage.getItem('token'),
     };
 
@@ -79,17 +122,30 @@ export default function NewListing() {
         </div>
       </div>
 
-      <div style={styles.photoUploadBox} className="flex flex-col items-center justify-center mb-6 relative">
-        <svg xmlns="http://www.w3.org/2000/svg" width="370" height="370" fill="none">
-          <rect x="1.25" y="1.25" width="368.5" height="368.5" rx="48.75" stroke="#73AB84" strokeWidth="2.5" />
+       {/* Add Photos Button */}
+       <div
+        style={styles.photoUploadBox}
+        onClick={!imageUrl ? handleAddPhotos : undefined} // Disable click if image is uploaded
+        className="flex flex-col items-center justify-center mb-6 relative">
+          {imageUrl ? (
+          // Display the uploaded image
+          <img src={imageUrl} alt="Uploaded" style={{ width: '100%', height: '100%', borderRadius: '48.75px', objectFit: 'cover' }} />
+          ) : (
+            <>
+      <svg xmlns="http://www.w3.org/2000/svg" width="370" height="370" fill="none">
+        <rect x="1.25" y="1.25" width="368.5" height="368.5" rx="48.75" stroke="#73AB84" strokeWidth="2.5" />
+      </svg>
+      <div style={styles.innerCircle}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" fill="none">
+          <path d="M28.5 12.5v33M12.5 28.5h33" stroke="#73AB84" strokeWidth="2" strokeLinecap="round" />
         </svg>
-        <div style={styles.innerCircle}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" fill="none">
-            <path d="M28.5 12.5v33M12.5 28.5h33" stroke="#73AB84" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </div>
-        <div style={styles.addPhotosText}>add photos</div>
       </div>
+      <div style={styles.addPhotosText}>add photos</div>
+    </>
+  )}
+</div>
+
+
 
       {/* Category Section */}
       <div className="mb-20" style={{ marginBottom: 15 }}>
