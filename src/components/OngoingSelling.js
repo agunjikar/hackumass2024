@@ -1,111 +1,119 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export default function OngoingSelling() {
-  const [activeButton, setActiveButton] = useState('ongoing');
+  const [activeTopButton, setActiveTopButton] = useState('ongoing');
+  const [activeBottomButton, setActiveBottomButton] = useState('buying');
+  const [showBids, setShowBids] = useState(true);
+  const [isChevronUp, setIsChevronUp] = useState(true);
 
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName);
+  const handleTopButtonClick = (buttonName) => {
+    setActiveTopButton(buttonName);
   };
 
-  const getButtonStyle = (buttonName) => {
-    return activeButton === buttonName
+  const handleBottomButtonClick = (buttonName) => {
+    setActiveBottomButton(buttonName);
+  };
+
+  const handleListingClick = () => {
+    setShowBids((prevState) => !prevState);
+    setIsChevronUp((prevState) => !prevState);
+  };  
+
+  const getButtonStyle = (buttonName, isActive) => {
+    return isActive
       ? { backgroundColor: '#73AB84', color: 'black' }
       : { backgroundColor: '#343537', color: 'white' };
   };
 
   return (
     <div className="container">
+      {/* Header */}
       <div style={styles.rowContainer}>
         <h1 style={styles.heading}>bids/listings</h1>
         <h1 style={styles.plusButton}>+</h1>
       </div>
+
+      {/* Top Buttons: Ongoing and Completed */}
       <div style={styles.buttonContainer}>
         <div
-          style={{ ...styles.ongoingButton, ...getButtonStyle('ongoing') }}
-          onClick={() => handleButtonClick('ongoing')}
+          style={{ ...styles.ongoingButton, ...getButtonStyle('ongoing', activeTopButton === 'ongoing') }}
+          onClick={() => handleTopButtonClick('ongoing')}
         >
-          <span style={styles.ongoingWord}>ongoing</span>
+          <span style={styles.buttonText}>ongoing</span>
         </div>
         <div
-          style={{ ...styles.completedButton, ...getButtonStyle('completed') }}
-          onClick={() => handleButtonClick('completed')}
+          style={{ ...styles.completedButton, ...getButtonStyle('completed', activeTopButton === 'completed') }}
+          onClick={() => handleTopButtonClick('completed')}
         >
-          <span style={styles.completedWord}>completed</span>
+          <span style={styles.buttonText}>completed</span>
         </div>
       </div>
+
+      {/* Bottom Buttons: Buying and Selling */}
       <div style={styles.buttonContainer}>
         <button
-          style={{ ...styles.buying, ...getButtonStyle('buying') }}
-          onClick={() => handleButtonClick('buying')}
+          style={{ ...styles.buying, ...getButtonStyle('buying', activeBottomButton === 'buying') }}
+          onClick={() => handleBottomButtonClick('buying')}
         >
           buying
         </button>
         <button
-          style={{ ...styles.selling, ...getButtonStyle('selling') }}
-          onClick={() => handleButtonClick('selling')}
+          style={{ ...styles.selling, ...getButtonStyle('selling', activeBottomButton === 'selling') }}
+          onClick={() => handleBottomButtonClick('selling')}
         >
           selling
         </button>
       </div>
 
-    <div style={styles.listings}>
-            <div style={styles.listing}>
-                <div style={styles.listingInline}>
-                  <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
-                  <div style={styles.listingDetails}>
-                      <div style={styles.headerComponent}>
-                          <p style={styles.listingTitle}>foam runners</p>
-                          <img src='images/chevron-up.svg' style={styles.heartIcon} alt='heart' />
-                      </div>
-                      <p style={styles.listingPrice}>$345</p>
-                      <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-                      <div style={styles.tags}>
-                          <p style={styles.tag}>size: men's 12</p>
-                          <p style={styles.tag}>comfy</p>
-                      </div>
-                  </div>
-            </div>
-                <div style={styles.bidItems}>
-                  <h3 style={styles.bidsHeading}>bids</h3>
-                    <div style={styles.bidItem}>
-                      <span style={styles.bidAmount}>$250</span>
-                      <span style={styles.bidder}>by @anshul</span>
-                      <div style={styles.bidActions}>
-                          <button style={styles.acceptButton}>✅</button>
-                          <button style={styles.rejectButton}>❌</button>
-                      </div>
-                  </div>
+      <div style={styles.listing} onClick={handleListingClick}>
+  <div style={styles.listingInline}>
+    <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt="listingImage" />
+    <div style={styles.listingDetails}>
+      <div style={styles.headerComponent}>
+        <p style={styles.listingTitle}>foam runners</p>
+        <img
+          src={isChevronUp ? 'images/chevron-up.svg' : 'images/chevron-down.svg'}
+          style={styles.heartIcon}
+          alt="chevron-icon"
+        />
+      </div>
+      <p style={styles.listingPrice}>$345</p>
+      <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
+      <div style={styles.tags}>
+        <p style={styles.tag}>size: men's 12</p>
+        <p style={styles.tag}>comfy</p>
+      </div>
+    </div>
+  </div>
 
-                  <div style={styles.bidItem}>
-                      <span style={styles.bidAmount}>$234</span>
-                      <span style={styles.bidder}>by @tanush</span>
-                      <div style={styles.bidActions}>
-                          <button style={styles.acceptButton}>✅</button>
-                          <button style={styles.rejectButton}>❌</button>
-                      </div>
-                  </div>
-                </div>
-            </div>
-            <div style={styles.listing}>
-              <div style={styles.listingInline}>
-                  <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
-                  <div style={styles.listingDetails}>
-                      <div style={styles.headerComponent}>
-                          <p style={styles.listingTitle}>yeezy foam runners</p>
-                          <img src='images/chevron-down.svg' style={styles.heartIcon} alt='heart' />
-                      </div>
-                      <p style={styles.listingPrice}>$345</p>
-                      <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-                      <div style={styles.tags}>
-                          <p style={styles.tag}>size: men's 12</p>
-                          <p style={styles.tag}>comfy</p>
-                      </div>
-                  </div>
-                </div>
-            </div>
-            
-            </div> 
+  {showBids && (
+  <div style={styles.bidItems}>
+    <h3 style={styles.bidsHeading}>bids</h3>
+    
+    {/* First Bid */}
+    <div style={styles.bidItem}>
+      <span style={styles.bidAmount}>$250</span>
+      <span style={styles.bidder}>by @anshul</span>
+      <div style={styles.bidActions}>
+        <button style={styles.acceptButton}>✅</button>
+        <button style={styles.rejectButton}>❌</button>
+      </div>
+    </div>
+
+    {/* Second Bid */}
+    <div style={styles.bidItem}>
+      <span style={styles.bidAmount}>$234</span>
+      <span style={styles.bidder}>by @tanush</span>
+      <div style={styles.bidActions}>
+        <button style={styles.acceptButton}>✅</button>
+        <button style={styles.rejectButton}>❌</button>
+      </div>
+    </div>
+  </div>
+)}
+
+</div>
+
 
       {/* Spacer to prevent overlap with bottom bar */}
       <div style={styles.spacer}></div>
@@ -160,107 +168,66 @@ const styles = {
         marginLeft: '60px',
         marginBottom:'15px'
     },
-
-
-   'rowContainer': {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-
-   'ongoingButton': {
-    borderRadius: '10px',
-    background: '#73AB84',
-    width: '150px',       // Sets the width as per your screenshot
-    height: '50px',       // Sets the height as per your screenshot
-    padding: '10px',      // Adds padding to match the layout
-    flexShrink: 0,        // Prevents the button from shrinking
-    display: 'flex',      // Aligns any content within the button
-    alignItems: 'center', // Centers content vertically
-    justifyContent: 'center', // Centers content horizontally
-    marginLeft: '40px',
-  },
-
-    'completedButton': {
-    borderRadius: '10px',
-    background: '#343537',
-    width: '150px',       // Sets the width as per your screenshot
-    height: '50px',       // Sets the height as per your screenshot
-    padding: '10px',      // Adds padding to match the layout
-    flexShrink: 0,        // Prevents the button from shrinking
-    display: 'flex',      // Aligns any content within the button
-    alignItems: 'center', // Centers content vertically
-    justifyContent: 'center', // Centers content horizontally
-    marginLeft: '20px',
-
-  },
-
-  'ongoingWord':{
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: "Plus Jakarta Sans",
-    fontSize: '22px',
-    fontWeight:600,
-    fontHeight: 700,
-    lineHeight: 'normal',
-    borderRadius: '10px',
-},
-
- 'completedWord':{
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: "Plus Jakarta Sans",
-    fontSize: '22px',
-    fontStyle: 'normal',
-    fontHeight: 700,
-    fontWeight: 600,
-    lineHeight: 'normal',
-    borderRadius: '10px',
-},
-
-'buttonContainer': {
-    display: 'flex',      // Aligns buttons horizontally
-    alignItems: 'center',
-    marginTop: '1px' , 
-    marginBottom:'10px',   // Adds spacing above the buttons
-    width: '100%',        // Sets the width to 100% of the container
-  },
-
-  'buying': {
-    width: '140px',
-    height: '55px',
-    backgroundColor: '#343537',
-    borderRadius: '50px',
-    border: 'none',
-    color: '#FFFFFF',
-    fontFamily: 'Plus Jakarta Sans', // Update to your font family
-    fontSize: '18px',
-    fontWeight: '600',
-    textAlign: 'center',
-    cursor: 'pointer',
-    flexShrink: 0,
-    marginLeft: '40px',
-    marginTop: '20px',
-  },
-
-  'selling': {
-    width: '140px',
-    height: '55px',
-    backgroundColor: '#73AB84',
-    borderRadius: '50px',
-    border: 'none',
-    color: 'black',
-    fontFamily: 'Plus Jakarta Sans', // Update to your font family
-    fontSize: '18px',
-    fontWeight: '600',
-    textAlign: 'center',
-    cursor: 'pointer',
-    flexShrink: 0,
-    marginLeft: '20px',
-    marginTop: '20px'
-  },
-
+    rowContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+    },
+    buttonContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      marginTop: '10px',
+      marginBottom: '20px',
+      width: '100%',
+    },
+    ongoingButton: {
+      borderRadius: '10px',
+      width: '150px',
+      height: '70px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginLeft: '40px',
+    },
+    completedButton: {
+      borderRadius: '10px',
+      width: '150px',
+      height: '70px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginLeft: '20px',
+    },
+    buying: {
+      width: '140px',
+      height: '55px',
+      borderRadius: '50px',
+      border: 'none',
+      fontFamily: 'Plus Jakarta Sans',
+      fontSize: '18px',
+      fontWeight: '600',
+      textAlign: 'center',
+      cursor: 'pointer',
+      marginLeft: '40px',
+    },
+    selling: {
+      width: '140px',
+      height: '55px',
+      borderRadius: '50px',
+      border: 'none',
+      fontFamily: 'Plus Jakarta Sans',
+      fontSize: '18px',
+      fontWeight: '600',
+      textAlign: 'center',
+      cursor: 'pointer',
+      marginLeft: '20px',
+    },
+    buttonText: {
+      fontFamily: 'Plus Jakarta Sans',
+      fontSize: '22px',
+      fontWeight: '600',
+    },
   'panel':{
     
         width: '359px',
@@ -367,6 +334,7 @@ const styles = {
         marginTop: '30px',
     },
     'listing': {
+      marginLeft: '20px',
         background: '#343537',
         borderRadius: '20px',
         width: '90%',
@@ -450,15 +418,19 @@ const styles = {
         padding: '5px 10px',
         marginRight: '10px',
     },
+    spacer: {
+      height: '7rem',
+    },
     bottomBar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        background: '#343537',
-        width: '100%',
-        height: '5rem',
-        position: 'fixed',
-        bottom: '0px'
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      background: '#343537',
+      width: '100%',
+      height: '5rem',
+      position: 'fixed',
+      bottom: '0px',
+      zIndex: 10,
     },
     bottomIcon: {
         color: 'white',
