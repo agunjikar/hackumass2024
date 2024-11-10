@@ -186,6 +186,14 @@ export default function Profile() {
         </div>
 
         <button style={styles.logoutButton}>log out</button>
+
+        <div style={styles.bottomBar}>
+            <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
+            <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
+            <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
+            <img src='images/bottom-nav-profile-active.svg' style={styles.bottomIcon} alt='profile' />
+        </div>
+
     </div>
   );
 }
@@ -324,4 +332,17 @@ const styles = {
         margin: '16px auto 30px auto',
         marginBottom: '30px',
     },
+    bottomBar: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        background: '#343537',
+        width: '100%',
+        height: '5rem',
+        position: 'fixed',
+        bottom: '0px'
+    },
+    bottomIcon: {
+        color: 'white',
+    }
 };
