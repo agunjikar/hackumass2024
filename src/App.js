@@ -15,6 +15,7 @@ import './global.css'
 import CompletedBuying from "./components/CompletedBuying";
 import CompletedSelling from "./components/CompletedSelling";
 import OngoingBuying from "./components/OngoingBuying";
+import Filters from "./components/Filters";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="verify" element={<Verify />} />
           <Route path="placeBid" element={<PlaceBid />} />
           <Route path="orderConfirmed" element={<OrderConfirmed />} />
+          <Route path="filters" element={<Filters />} />
         </Route>
       </Routes>
     </BrowserRouter>
