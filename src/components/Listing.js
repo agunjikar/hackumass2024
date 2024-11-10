@@ -294,7 +294,8 @@ const styles = {
         marginTop: '20px',
         marginLeft: '22px',
         justifyContent: 'flex-start',
-        flexWrap: 'wrap' // Allows tags to wrap to the next line if needed
+        flexWrap: 'wrap', // Allows tags to wrap to the next line if needed
+        marginBottom: '20%'
       },
       tag: {
         display: 'flex',
