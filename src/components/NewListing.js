@@ -1,210 +1,237 @@
-import React from 'react'
+import React from 'react';
 
-export default function Register() {
+export default function NewListing() {
   return (
     <div className="container p-6 bg-black text-white max-w-md mx-auto">
-      <div style={styles.headerContainer}>
-        <h1 style={styles.heading}>new listing</h1>
-        <div style={styles.closeButton} className="flex items-center justify-center">
-          <span>✕</span>
+        {/* Header with title and close button */}
+        <div style={styles.headerContainer}>
+            <h1 style={styles.heading}>new listing</h1>
+            <div style={styles.closeButton} className="flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                <path d="M15.8334 4.16667L4.16669 15.8333M4.1667 4.16667L15.8334 15.8333" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            </div>
         </div>
-      </div>
 
-      <div style={styles.photoUploadBox} className="flex items-center justify-center mb-6">
-        <div style={styles.innerCircle} className="flex items-center justify-center">
-          <div style={styles.plusSign}>+</div>
+        <div style={styles.photoUploadBox} className="flex flex-col items-center justify-center mb-6 relative">
+            {/* Outer Box */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="370" height="370" fill="none">
+                <rect x="1.25" y="1.25" width="368.5" height="368.5" rx="48.75" stroke="#73AB84" strokeWidth="2.5" />
+            </svg>
+            {/* Inner Circle with Plus Sign */}
+            <div style={styles.innerCircle}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" fill="none">
+                <path d="M28.5 12.5v33M12.5 28.5h33" stroke="#73AB84" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+            </div>
+            {/* Add Photos Text Below the Plus Sign */}
+            <div style={styles.addPhotosText}>
+                add photos
+            </div>
         </div>
-      </div>
 
-      <div className="mb-6">
-        <div style={styles.label}>category</div>
-        <div className="flex gap-2 flex-wrap">
-          <button style={styles.activeButton}>Electronics</button>
-          <button style={styles.inactiveButton}>Books</button>
-          <button style={styles.inactiveButton}>Clothing</button>
-          <button style={styles.activeButton}>Sneakers</button>
+        <div className="mb-6">
+            <div style={styles.label}>category</div>
+
+            {/* First row of category buttons */}
+            <div className="flex gap-2 mb-4">
+                <button style={styles.inactiveButton}>Electronics</button>
+                <button style={styles.activeButton}>Books</button>
+            </div>
+
+            {/* Second row of category buttons */}
+            <div className="flex gap-2">
+                <button style={styles.inactiveButton}>Clothing</button>
+                <button style={styles.activeButton}>Sneakers</button>
+            </div>
         </div>
-      </div>
 
+      {/* Input Fields */}
       <div className="space-y-6">
-        <div>
-          <div style={styles.label}>title</div>
-          <input 
-            type="text" 
-            placeholder="Nike Hoodie"
-            style={styles.input}
-          />
-        </div>
-
-        <div>
-          <div style={styles.label}>description</div>
-          <input 
-            type="text" 
-            placeholder="Nike Hoodie"
-            style={styles.input}
-          />
-        </div>
-
-        <div>
-          <div style={styles.label}>condition</div>
-          <input 
-            type="text" 
-            placeholder="gently used"
-            style={styles.input}
-          />
-        </div>
-
-        <div>
-          <div style={styles.label}>size</div>
-          <input 
-            type="text" 
-            placeholder="us large"
-            style={styles.input}
-          />
-        </div>
-
-        <div>
-          <div style={styles.label}>price</div>
-          <div className="flex gap-4">
-            <input 
-              type="text" 
-              placeholder="$65"
-              style={styles.input}
-            />
-            <input 
-              type="text" 
-              placeholder="It's a donation"
+        {["title", "description", "condition", "size", "bid price", "tags"].map((field, index) => (
+          <div key={index}>
+            <div style={styles.label}>{field}</div>
+            <input
+              type="text"
+              placeholder={`Enter ${field}`}
               style={styles.input}
             />
           </div>
-        </div>
-
-        <div>
-          <div style={styles.label}>bid price</div>
-          <input 
-            type="text" 
-            placeholder="$30 or higher"
-            style={styles.input}
-          />
-        </div>
-
-        <div>
-          <div style={styles.label}>tags</div>
-          <input 
-            type="text" 
-            placeholder="comfy, designer, party, casual"
-            style={styles.input}
-          />
-        </div>
+        ))}
       </div>
 
+        {/* Price and Donation Fields */}
+        <div className="mb-6">
+        <div style={styles.label}>price</div>
+        <div style={styles.inputRow} className="flex items-center gap-2">
+            <input type="text" placeholder="$65" style={styles.halfInput} />
+            <button style={styles.donationButton}>It's a donation</button>
+        </div>
+        </div>
+
+      {/* List Item Button */}
       <button style={styles.listButton} className="w-full mt-6">
         list item
       </button>
     </div>
-  )
+  );
 }
 
 const styles = {
-    headerContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '24px',
-      position: 'relative'
-    },
-    heading: {
-      color: 'white',
-      fontFamily: 'Plus Jakarta Sans',
-      fontWeight: 600,
-      position: 'absolute',
-      left: '50%',
-      transform: 'translateX(-50%)'
-    },
-    closeButton: {
-      width: '50px',
-      height: '50px',
-      flexShrink: 0,
-      borderRadius: '50px',
-      background: '#343537',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft: 'auto',
-      border: 'none' // Removed any extra borders
-    },
-    photoUploadBox: {
-      width: '370px',
-      height: '370px',
-      flexShrink: 0,
-      border: '2.5px solid #73AB84',
-      borderRadius: '12px'
-    },
-    innerCircle: {
-      width: '100px',
-      height: '100px',
-      flexShrink: 0,
-      borderRadius: '50px',
-      background: '#343537',
-      border: 'none' // Removed any extra borders
-    },
-    plusSign: {
-      width: '40px',
-      height: '40px',
-      transform: 'rotate(-45deg)',
-      fontSize: '24px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    label: {
-      width: '47px',
-      color: '#FFF',
-      textAlign: 'center',
-      fontFamily: 'Plus Jakarta Sans',
-      fontSize: '20px',
-      fontStyle: 'normal',
-      fontWeight: 700,
-      lineHeight: 'normal',
-      marginBottom: '8px'
-    },
-    input: {
-      width: '346px',
-      height: '66px',
-      flexShrink: 0,
-      background: '#343537',
-      borderRadius: '10px',
-      color: 'white',
-      padding: '0 16px',
-      border: 'none', // Removed any extra borders
-      boxShadow: 'none' // Removed any extra shadow effects
-    },
-    activeButton: {
-      width: '183px',
-      height: '50px',
-      borderRadius: '50px',
-      background: '#73AB84',
-      color: 'white',
-      border: 'none', // Removed any extra borders
-      boxShadow: 'none' // Removed any extra shadow effects
-    },
-    inactiveButton: {
-      width: '183px',
-      height: '50px',
-      borderRadius: '50px',
-      background: '#343537',
-      color: 'white',
-      border: 'none', // Removed any extra borders
-      boxShadow: 'none' // Removed any extra shadow effects
-    },
-    listButton: {
-      width: '100%',
-      padding: '12px',
-      background: '#73AB84',
-      borderRadius: '8px',
-      color: 'white',
-      border: 'none', // Removed any extra borders
-      boxShadow: 'none' // Removed any extra shadow effects
-    }
-  };
-  
+  headerContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginLeft: '-100px',
+    marginBottom: '10px',
+    width: '100%',
+  },
+  heading: {
+    color: 'white',
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: 600,
+    textAlign: 'center',
+    flex: 1,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    width: '40px',
+    height: '40px',
+    marginTop: '13px',
+    marginRight: '2px',
+    borderRadius: '50%',
+    backgroundColor: '#343537',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  },  
+  photoUploadBox: {
+    position: 'relative',
+    width: '100%',
+    maxWidth: '370px',
+    height: '370px',
+    marginBottom: '24px',
+    marginLeft: '30px',
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  innerCircle: {
+    position: 'absolute',
+    width: '100px',
+    height: '100px',
+    borderRadius: '50px',
+    backgroundColor: '#343537',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  label: {
+    color: '#FFF',
+    marginLeft: '30px',
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: '16px',
+    fontWeight: 700,
+    marginBottom: '13px',
+  },
+  input: {
+    position: 'relative',
+    width: '100%',
+    maxWidth: '340px',
+    height: '50px',
+    marginLeft: '30px',
+    backgroundColor: '#343537',
+    borderRadius: '10px',
+    color: 'white',
+    padding: '0 16px',
+    fontFamily: 'Plus Jakarta Sans',
+    border: 'none',
+    marginBottom: '25px',
+    outline: 'none',
+  },
+  activeButton: {
+    flex: '1',
+    height: '50px',
+    width: '180px',
+    borderRadius: '25px',
+    marginRight: '10px',
+    backgroundColor: '#73AB84',
+    color: 'white',
+    border: 'none',
+    fontFamily: 'Plus Jakarta Sans',
+    textAlign: 'center',
+  },
+  inactiveButton: {
+    flex: '1',
+    height: '50px',
+    marginLeft: '30px',
+    marginBottom:  '15px',
+    width: '180px',
+    borderRadius: '25px',
+    marginRight: '10px',
+    fontFamily: 'Plus Jakarta Sans',
+    backgroundColor: '#343537',
+    color: 'white',
+    border: 'none',
+    textAlign: 'center',
+  },  
+  listButton: {
+    width: '370px',
+    padding: '12px',
+    backgroundColor: '#73AB84',
+    borderRadius: '8px',
+    marginLeft: '30px',
+    color: 'black',
+    border: 'none',
+    marginTop: '15px',
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: 600,
+    fontSize: '16px',
+    marginBottom: '30px',
+  },
+  addPhotosText: {
+    position: 'absolute',
+    top: '65%',
+    marginTop: '10px',
+    color: '#FFF',
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: '30px',
+    fontWeight: 600,
+    textAlign: 'center',
+  },  
+  inputRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '370px',
+    marginLeft: '30px',
+    marginBottom: '25px',
+  },
+  halfInput: {
+    flex: 1,
+    height: '50px',
+    marginRight: '27px',
+    backgroundColor: '#343537',
+    borderRadius: '10px',
+    color: 'white',
+    padding: '0 16px',
+    border: 'none',
+    fontFamily: 'Plus Jakarta Sans',
+  },
+  donationButton: {
+    flex: 1,
+    height: '50px',
+    borderRadius: '10px',
+    width: '200px',
+    backgroundColor: '#73AB84',
+    color: 'white',
+    border: 'none',
+    fontWeight: 600,
+    textAlign: 'left',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+};
