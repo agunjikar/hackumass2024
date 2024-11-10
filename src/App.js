@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Register from './components/Register';
+import Wishlist from "./components/Wishlist";
 import './global.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
         <Route path="/">
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
+          <Route path="wishlist" element={<Wishlist />} />
         </Route>
       </Routes>
     </BrowserRouter>
