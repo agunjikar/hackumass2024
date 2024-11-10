@@ -1,17 +1,43 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios';
+import { API_URL } from '../constants';
+
+// Import the useSearchParams hook
+import { useSearchParams } from 'react-router-dom';
 
 export default function Listing() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [listing, setListing] = useState({
+    title: '',
+    price: 0,
+    bidPrice: 0,
+    description: '',
+    tags: [],
+    condition: '',
+    size: ''
+  });
+
+  useEffect(() => {
+    axios.get(`${API_URL}/listings/${searchParams.get('id')}`)
+      .then((response) => {
+        setListing(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching listing:', error);
+      });
+  });
+
   return (
     <div className="container">
         <div style={styles.headerContainer}>
             <h1 style={styles.heading}>listing</h1>
-            <h1 style={styles.heading2}>by @shri</h1>
+            <h1 style={styles.heading2}>by @anshulsaha</h1>
             <CloseButton /> {}
         </div>
-        <h1 style={styles.listingName}>No Faith Studios Reversible Bomber Jacket</h1>
+        <h1 style={styles.listingName}>{listing.title}</h1>
         
         <div style={styles.priceDiv}>
-            <h1 style={styles.priceTag}>$339</h1>
+            <h1 style={styles.priceTag}>${listing.price}</h1>
             <HeartButton /> {}
         </div>
 
@@ -37,28 +63,35 @@ export default function Listing() {
 
 
     <div style={styles.buttonsContainer}>
-        <div style={styles.actionButtonContainer}>
+        <div style={styles.actionButtonContainer} onClick={() => {
+          window.location.href = '/placebid?listing=' + listing._id + '&price=' + listing.price + '&title=' + listing.title;
+        }}>
           <ActionButton label="place bid" />
-          <p style={styles.priceInfo}>highest bid : $220</p>
+          <p style={styles.priceInfo}>minimum bid : ${listing.bidPrice}</p>
         </div>
-        <div style={styles.actionButtonContainer}>
+        <div style={styles.actionButtonContainer} onClick={() => {
+            window.location.href = '/orderconfirmed?price=' + listing.price + '&title=' + listing.title;
+          }}>
           <ActionButton label="buy now" />
-          <p style={styles.priceInfo}>buy now price: $339</p>
+          <p style={styles.priceInfo}>buy now price: ${listing.price}</p>
         </div>
     </div>
 
     <div style={styles.descriptionArea}>
         <p>
-        Check out this fire piece. This is super rare and the intentional fading on it makes it very unique! This item is in used condition with no major flaws. You will receive only what is pictured in the listing.
+          {listing.description}
         </p>
       </div>
 
     {/* Tags area */}
     <div style={styles.tagsContainer}>
-        <Tag label="condition: gently used" style={styles.tagLarge} />
-        <Tag label="size: men’s/us large" style={styles.tagLarge} />
-        <Tag label="color: black" style={styles.tagSmall} />
-        <Tag label="vibe: comfy" style={styles.tagLarge} />
+        {
+          listing.tags.map((tag) => (
+            <Tag label={tag} style={styles.tag} />
+          ))
+        }
+        <Tag label={`condition: ${listing.condition}`} style={styles.tagLarge} />
+        <Tag label={`size: ${listing.size}`} style={styles.tagLarge} />
     </div>
 
     </div>
@@ -77,7 +110,9 @@ function Tag({ label, style }) {
 //X Button
 function CloseButton() {
     return (
-      <div style={styles.closeButton}>
+      <div style={styles.closeButton} onClick={() => {
+        window.location.href = '/explore';
+      }}>
         <div style={styles.line1}></div>
         <div style={styles.line2}></div>
       </div>

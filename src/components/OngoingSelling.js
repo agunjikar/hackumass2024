@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { Notyf } from 'notyf';
 
 export default function OngoingSelling() {
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
+
   const [activeTopButton, setActiveTopButton] = useState('ongoing');
   const [activeBottomButton, setActiveBottomButton] = useState('buying');
   const [showBids, setShowBids] = useState(true);
@@ -30,7 +41,9 @@ export default function OngoingSelling() {
       {/* Header */}
       <div style={styles.rowContainer}>
         <h1 style={styles.heading}>bids/listings</h1>
-        <h1 style={styles.plusButton}>+</h1>
+        <h1 style={styles.plusButton} onClick={() => {
+          window.location.href = '/new-listing';
+        }}>+</h1>
       </div>
 
       {/* Top Buttons: Ongoing and Completed */}
@@ -67,7 +80,7 @@ export default function OngoingSelling() {
 
       <div style={styles.listing} onClick={handleListingClick}>
   <div style={styles.listingInline}>
-    <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt="listingImage" />
+    <img src="images/yeezy.png" style={styles.listingImage} alt="listingImage" />
     <div style={styles.listingDetails}>
       <div style={styles.headerComponent}>
         <p style={styles.listingTitle}>foam runners</p>
@@ -118,10 +131,16 @@ export default function OngoingSelling() {
       {/* Spacer to prevent overlap with bottom bar */}
       <div style={styles.spacer}></div>
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
-        <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
-        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
-        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
+        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
+          window.location.href = '/explore';
+        }} />
+        <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' onClick={() => {
+          window.location.href = '/wishlist';
+        }}/>
+        <img src='images/bottom-nav-bid-active.svg' style={styles.bottomIcon} alt='bid' />
+        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
+          window.location.href = '/profile';
+        }}/>
       </div>
             
     </div>

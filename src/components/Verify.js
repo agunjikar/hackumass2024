@@ -1,10 +1,40 @@
 import React, { useState } from 'react'
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { Notyf } from 'notyf';
 
 export default function Verify() {
+  const notyf = new Notyf({
+    duration: 4000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
+
   const [verificationCode, setVerificationCode] = useState('')
 
   const handleVerify = () => {
-    console.log(verificationCode)
+    if (!verificationCode) {
+      notyf.error('Please fill all the fields');
+      return;
+    }
+
+    axios.post(`${API_URL}/verify`, {
+      accessToken: localStorage.getItem('token'),
+      token: verificationCode,
+    })
+    .then((response) => {
+      if (response.data.success == true) {
+        notyf.success('User verified successfully');
+        window.location.href = '/login';
+      } else {
+        notyf.error('Invalid verification code');
+      }
+    })
+    .catch((error) => {
+      notyf.error('Something went wrong');
+    });
   }
 
   return (

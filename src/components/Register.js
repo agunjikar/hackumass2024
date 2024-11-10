@@ -1,14 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { Notyf } from 'notyf';
 
 export default function Register() {
+  const notyf = new Notyf({
+    duration: 4000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
+
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = () => {
-    console.log('Email:', email);
-    console.log('Username:', username);
-    console.log('Password:', password);
+    if (!email || !username || !password) {
+      notyf.error('Please fill all the fields');
+      return;
+    }
+
+    axios.post(`${API_URL}/register`, {
+      email,
+      username,
+      password,
+    })
+    .then((response) => {
+      notyf.success('User registered successfully');
+      localStorage.setItem('token', response.data.accessToken);
+      window.location.href = '/verify';
+    })
+    .catch((error) => {
+      notyf.error('Something went wrong');
+    });
   };
 
   return (

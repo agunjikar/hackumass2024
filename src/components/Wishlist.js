@@ -48,10 +48,16 @@ export default function Wishlist() {
 
       {/* Bottom navigation bar */}
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
+        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
+          window.location.href = '/explore';
+        }}/>
         <img src='images/bottom-nav-heart-active.svg' style={styles.bottomIcon} alt='heart' />
-        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
-        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
+        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' onClick={() => {
+          window.location.href = '/bid';
+        }} />
+        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
+          window.location.href = '/profile';
+        }}/>
       </div>
 
     </div>
@@ -123,7 +129,7 @@ const styles = {
   },
   itemContainer: {
     width: '100%',
-    height: '350px',
+    height: 'fit-content',
     borderRadius: '10px',
     backgroundColor: '#343537',
     padding: '6px',
@@ -136,6 +142,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: '10px',
   },
   itemImage: {
     width: '150px',
@@ -195,6 +202,8 @@ const styles = {
   tagsContainer: {
     display: 'flex',
     gap: '10px',
+    marginTop: '10px',
+    marginBottom: '10px',
   },
   tag: {
     width: '72px',
