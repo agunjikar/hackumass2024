@@ -8,6 +8,8 @@ import Discovery from "./components/Discovery";
 import Wishlist from "./components/Wishlist";
 import Login from "./components/login";
 import Verify from "./components/Verify";
+import PlaceBid from './components/PlaceBid';
+import OrderConfirmed from './components/OrderConfirmed';
 import './global.css'
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="verify" element={<Verify />} />
+          <Route path="placeBid" element={<PlaceBid />} />
+          <Route path="orderConfirmed" element={<OrderConfirmed />} />
         </Route>
       </Routes>
     </BrowserRouter>
