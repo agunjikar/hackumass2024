@@ -56,6 +56,8 @@ export default function Discovery() {
                 </div>
             </div>
         </div>
+
+        <div style={styles.spacer}></div>
         <div style={styles.bottomBar}>
             <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
             <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
@@ -257,5 +259,8 @@ const styles = {
     },
     bottomIcon: {
         color: 'white',
+    },
+    spacer: {
+        height: '7rem',
     }
 }

@@ -78,6 +78,16 @@ export default function OngoingSelling() {
             </div>
             
             </div> 
+
+      {/* Spacer to prevent overlap with bottom bar */}
+      <div style={styles.spacer}></div>
+
+      <div style={styles.bottomBar}>
+        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
+        <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
+        <img src='images/bottom-nav-bid-active.svg' style={styles.bottomIcon} alt='bid' />
+        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
+      </div>
             
     </div>
     
@@ -477,5 +487,7 @@ const styles = {
       cursor: 'pointer',
       fontFamily: "Plus Jakarta Sans",
     },
-
+    spacer: {
+      height: '7rem',
+    }
 }
