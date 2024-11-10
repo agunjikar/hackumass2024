@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Register from './components/Register';
+import OngoingBid from "./components/OngoingSelling";
 import Profile from './components/Profile';
 import NewListing from './components/NewListing';
 import Listing from './components/Listing'
@@ -11,6 +12,10 @@ import Verify from "./components/Verify";
 import PlaceBid from './components/PlaceBid';
 import OrderConfirmed from './components/OrderConfirmed';
 import './global.css'
+import CompletedBid from "./components/CompletedBuying";
+import CompletedSelling from "./components/CompletedSelling";
+import CompletedBuying from "./components/CompletedBuying";
+import OngoingSelling from "./components/OngoingSelling";
 
 function App() {
   return (
@@ -19,6 +24,9 @@ function App() {
         <Route path="/">
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
+          <Route path="ongoingselling" element={<OngoingSelling />} />
+          <Route path="completedbuying" element={<CompletedBuying />} />
+          <Route path="completedselling" element={<CompletedSelling />} />
           <Route path="profile" element={<Profile />} />
           <Route path="newlisting" element={<NewListing />} />
           <Route path="listing" element={<Listing />} />
