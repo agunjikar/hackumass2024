@@ -11,11 +11,8 @@ import Login from "./components/login";
 import Verify from "./components/Verify";
 import PlaceBid from './components/PlaceBid';
 import OrderConfirmed from './components/OrderConfirmed';
-import './global.css'
-import CompletedBuying from "./components/CompletedBuying";
-import CompletedSelling from "./components/CompletedSelling";
-import OngoingBuying from "./components/OngoingBuying";
 import Filters from "./components/Filters";
+import './global.css'
 
 function App() {
   return (
@@ -24,14 +21,11 @@ function App() {
         <Route path="/">
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
-          <Route path="ongoingselling" element={<OngoingSelling />} />
-          <Route path="ongoingbuying" element={<OngoingBuying />} />
-          <Route path="completedbuying" element={<CompletedBuying />} />
-          <Route path="completedselling" element={<CompletedSelling />} />
+          <Route path="bid" element={<OngoingSelling />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="newlisting" element={<NewListing />} />
+          <Route path="new-listing" element={<NewListing />} />
           <Route path="listing" element={<Listing />} />
-          <Route path="discovery" element={<Discovery />} />
+          <Route path="explore" element={<Discovery />} />
           <Route path="wishlist" element={<Wishlist />} />
           <Route path="home" element={<Home />} />
           <Route path="login" element={<Login />} />

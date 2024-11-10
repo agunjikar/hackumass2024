@@ -3,10 +3,14 @@ import React from 'react'
 export default function Home() {
   return (
     <div className="container">
-        <h1 style={styles.heading1}>our app</h1>
-        <h2 style={styles.heading2}>where you find stuff</h2>
-        <button style={styles.button1}>register</button>
-        <button style={styles.button2}>login</button>
+        <h1 style={styles.heading1}>U-sell</h1>
+        <h2 style={styles.heading2}>campus-wide marketplace</h2>
+        <button style={styles.button1} onClick={() => {
+          window.location.href = '/register';
+        }}>register</button>
+        <button style={styles.button2} onClick={() => {
+          window.location.href = '/login';
+        }}>login</button>
     </div>
   )
 }

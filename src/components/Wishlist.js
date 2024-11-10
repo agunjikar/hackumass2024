@@ -1,46 +1,92 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Notyf } from 'notyf';
+import { API_URL } from '../constants';
 
 export default function Wishlist() {
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
+
+
+  // const [wishlistItems, setWishlistItems] = useState([
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   // Add more items as needed or fetch dynamically later
+  // ]);
+
+const [wishlistItems, setWishlistItems] = useState([]);
+
+  useEffect(() => {
+    fetchWishlistItems();
+  }, []);
+
+  const fetchWishlistItems = () => {
+    const url = `${API_URL}/wishlist?accessToken=${localStorage.getItem('token')}`;
+
+    axios.get(url)
+      .then((response) => {
+        console.log(response.data);
+        setWishlistItems(response.data);
+      })
+      .catch((error) => {
+        notyf.error('Something went wrong');
+      });
+  };
+
   return (
     <div className="container" style={styles.container}>
       
       <h1 style={styles.heading}>wishlist</h1>
 
       <div style={styles.headerContainer}> 
-        <h1 style={styles.items1}>4</h1>
+        <h1 style={styles.items1}>{wishlistItems.length}</h1>
         <h1 style={styles.items2}>items</h1>
       </div>
 
       {/* Wishlist items */}
       <div style={styles.grid}>
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
+      {wishlistItems.map((item, index) => (
+          <WishlistItem 
+            id={item._id}
+            key={index}
+            imagePath={item.imagePath} 
+            name={item.title} 
+            price={item.price} 
+            description={item.description}
+            tags={item.tags}
+          />
+        ))}
       </div>
 
       {/* Spacer to prevent overlap with bottom bar */}
@@ -48,30 +94,38 @@ export default function Wishlist() {
 
       {/* Bottom navigation bar */}
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
-        <img src='images/bottom-nav-heart-active.svg' style={styles.bottomIcon} alt='heart' />
-        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
-        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
-      </div>
+                <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
+                    window.location.href = '/explore';
+                }} />
+                <img src='images/bottom-nav-heart-active.svg' style={styles.bottomIcon} alt='heart'/>
+                <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' onClick={() => {
+                    window.location.href = '/bid';
+                }}/>
+                <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
+                    window.location.href = '/profile';
+                }} />
+            </div>
 
     </div>
   );
 }
 
-// Wishlist Item Component
-function WishlistItem({ imagePath, name, price, description, tags }) {
+
+function WishlistItem({ id, imagePath, name, price, description, tags }) {
   return (
     <div style={styles.itemContainer}>
       <div style={styles.imageContainer}>
-        <img src={imagePath} alt={name} style={styles.itemImage} />
+        <img src="images/black-jacket.png" alt={name} style={styles.itemImage} />
       </div>
       <div style={styles.buttonsContainer}>
-        <button style={styles.view}>view</button>
+        <button style={styles.view} onClick={() => {
+          window.location.href = '/listing?id=' + id;
+        }}>view</button>
         <button style={styles.remove}>remove</button>
       </div>
       <div style={styles.productInfo}>
         <h2 style={styles.productName}>{name}</h2>
-        <p style={styles.productPrice}>{price}</p>
+        <p style={styles.productPrice}>${price}</p>
         <p style={styles.productDescription}>{description}</p>
       </div>
       <div style={styles.tagsContainer}>
@@ -82,6 +136,8 @@ function WishlistItem({ imagePath, name, price, description, tags }) {
     </div>
   );
 }
+
+
 
 const styles = {
   container: {
@@ -123,7 +179,7 @@ const styles = {
   },
   itemContainer: {
     width: '100%',
-    height: '350px',
+    height: 'fit-content',
     borderRadius: '10px',
     backgroundColor: '#343537',
     padding: '6px',
@@ -136,6 +192,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: '10px',
   },
   itemImage: {
     width: '150px',
@@ -195,6 +252,8 @@ const styles = {
   tagsContainer: {
     display: 'flex',
     gap: '10px',
+    marginTop: '10px',
+    marginBottom: '10px',
   },
   tag: {
     width: '72px',

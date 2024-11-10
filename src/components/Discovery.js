@@ -1,19 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Filters from './Filters';
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { Notyf } from 'notyf';
+
 
 export default function Discovery() {
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        }
+    });
+
     const [search, setSearch] = useState('');
     const [searchIcon] = useState('images/search.svg');
+    const [showFilters, setShowFilters] = useState(false);
+    const [tab, setTab] = useState('hot');
+    const [category, setCategoryState] = useState('all');
+    const [price, setPriceState] = useState('all');
+    const [listings, setListings] = useState([]);
+    const [likedListings, setLikedListings] = useState([]);
+
+    useEffect(() => {
+        fetchListings();
+    }, []);
+
+    const fetchListings = () => {
+        if (!localStorage.getItem('token')) {
+            notyf.error('Please login first');
+            window.location.href = '/login';
+        }   
+
+        let url = `${API_URL}/listings`;
+
+        if (category !== 'all') {
+            url += `?category=${category}`;
+        }
+
+        if (price !== 'all') {
+            url += `?price=${price}`;
+        }
+
+        if (search) {
+            url += `?search=${search}`;
+        }
+
+        url += `?filter=${tab}`;
+
+        url += `&token=${localStorage.getItem('token')}`;
+
+        axios.get(url)
+            .then((response) => {
+                setLikedListings(response.data.liked_listings); 
+                setListings(response.data.listings);
+            })
+            .catch((error) => {
+                notyf.error('Something went wrong');
+            });
+    };
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
     };
 
+    const handleShowFilters = (val, filters) => {
+        setShowFilters(val);
+        console.log(filters);
+        setCategoryState(filters.category);
+        setPriceState(filters.price);
+        console.log(category, price);
+        fetchListings();
+    };
+
     const handleSearchIconClick = () => {
         console.log(search);
+        fetchListings();
+        setSearch('');
     };
 
     return (
-        <div className="container">
+        showFilters ? <Filters changeFilters={handleShowFilters} category={category} price={price} /> : (
+            <div className="container">
             <h1 style={styles.heading}>explore</h1>
             <div style={styles.header}>
                 <div style={styles.searchBar}>
@@ -31,62 +100,102 @@ export default function Discovery() {
                         onClick={handleSearchIconClick}
                     />
                 </div>
-                <div style={styles.filter}>
+                <div style={styles.filter} onClick={() => {
+                    setShowFilters(true);
+                }}>
                     <img src="images/filter.svg" style={styles.filterIcon} alt='filter' />
                 </div>
             </div>
             <div style={styles.tabs}>
-                <div style={styles.activeTab}>
-                    <h2 style={styles.activeTabText}>hot</h2>
+                <div style={tab === "hot" ? styles.activeTab : styles.tab} onClick={() => {
+                    setTab('hot');
+                    fetchListings();
+                }}>
+                    <h2 style={styles.tabText}>hot</h2>
                 </div>
-                <div style={styles.tab}>
+                <div style={tab === "new" ? styles.activeTab : styles.tab} onClick={() => {
+                    setTab('new');
+                    fetchListings();
+                }}>
                     <h2 style={styles.tabText}>new</h2>
                 </div>
-                <div style={styles.tab}>
+                <div style={tab === "donated" ? styles.activeTab : styles.tab} onClick={() => {
+                    setTab('donated');
+                    fetchListings();
+                }}>
                     <h2 style={styles.tabText}>donated</h2>
                 </div>
             </div>
             <div style={styles.listings}>
-                <div style={styles.listing}>
-                    <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
-                    <div style={styles.listingDetails}>
-                        <div style={styles.headerComponent}>
-                            <p style={styles.listingTitle}>foam runners</p>
-                            <img src='images/heart.svg' style={styles.heartIcon} alt='heart' />
-                        </div>
-                        <p style={styles.listingPrice}>$345</p>
-                        <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-                        <div style={styles.tags}>
-                            <p style={styles.tag}>size: men's 12</p>
-                            <p style={styles.tag}>comfy</p>
-                        </div>
-                    </div>
-                </div>
-                <div style={styles.listing}>
-                    <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
-                    <div style={styles.listingDetails}>
-                        <div style={styles.headerComponent}>
-                            <p style={styles.listingTitle}>yeezy foam runners</p>
-                            <img src='images/active-heart.svg' style={styles.heartIcon} alt='heart' />
-                        </div>
-                        <p style={styles.listingPrice}>$345</p>
-                        <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-                        <div style={styles.tags}>
-                            <p style={styles.tag}>size: men's 12</p>
-                            <p style={styles.tag}>comfy</p>
-                        </div>
-                    </div>
-                </div>
+                {
+                    listings && listings.map((listing, index) => {
+                        return (
+                            <div style={styles.listing} key={index}>
+                                <img src="images/black-jacket.png" style={styles.listingImage} alt='listingImage' />
+                                <div style={styles.listingDetails}>
+                                    <div style={styles.headerComponent}>
+                                        <p style={styles.listingTitle} onClick={() => {
+                                            window.location.href = `/listing?id=${listing._id}`;
+                                        }}>{listing.title}</p>
+                                        <img src={likedListings.includes(listing._id) ? 'images/active-heart.svg' : 'images/heart.svg'} style={styles.heartIcon} alt='heart' onClick={() => {
+                                            if (!localStorage.getItem('token')) {
+                                                notyf.error('Please login first');
+                                                window.location.href = '/login';
+                                            }
+
+                                            axios.post(`${API_URL}/wishlist/add`, {
+                                                listing_id: listing._id,
+                                                token: localStorage.getItem('token')
+                                            })
+                                                .then((response) => {
+                                                    console.log("hello");
+                                                    fetchListings();
+                                                })
+                                                .catch((error) => {
+                                                    notyf.error('Something went wrong');
+                                                });
+                                                
+
+                                        }}/>
+                                    </div>
+                                    <p style={styles.listingPrice}>${listing.price}</p>
+                                    <p style={styles.listingDescription}>{listing.description}</p>
+                                    <div style={styles.tags}>
+                                        {   
+                                            listing.tags.map((tag, index) => {
+                                                return (
+                                                    <p style={styles.tag} key={index}>{tag}</p>
+                                                );
+                                            })
+                                        }
+                                    </div>
+                                    <div style={styles.tags}>
+                                        <p style={styles.tag}>{listing.size}</p>
+                                        <p style={styles.tag}>{listing.condition}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                }
+                
             </div>
 
             <div style={styles.spacer}></div>
             <div style={styles.bottomBar}>
                 <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
-                <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
-                <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
-                <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
+                <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' onClick={() => {
+                    window.location.href = '/wishlist';
+                }}/>
+                <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' onClick={() => {
+                    window.location.href = '/bid';
+                }}/>
+                <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
+                    window.location.href = '/profile';
+                }} />
             </div>
         </div>
+        )
     );
 }
 
@@ -251,13 +360,12 @@ const styles = {
         fontSize: '13px',
         width: '11rem',
         marginTop: '0px',
-        marginBottom: '0px'
+        marginBottom: '10px'
     },
     'tags': {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'left',
-        marginTop: '5px'
     },
     'tag': {
         background: '#EDF2D7',

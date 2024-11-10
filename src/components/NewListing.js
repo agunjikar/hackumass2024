@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { Notyf } from 'notyf';
 
 export default function NewListing() {
   const [imageUrl, setImageUrl] = useState('');
@@ -43,6 +46,21 @@ export default function NewListing() {
 
     fileInput.click();
   };
+  
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/login';
+    }
+  }, []);
+
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
+
   // States for input fields
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -51,17 +69,43 @@ export default function NewListing() {
   const [bidPrice, setBidPrice] = useState('');
   const [tags, setTags] = useState('');
   const [price, setPrice] = useState('');
+  const [donation, setDonation] = useState(false);
+  const [category, setCategory] = useState('clothing');
 
   // Function to handle listing item
   const handleListItem = () => {
-    console.log('Title:', title);
-    console.log('Description:', description);
-    console.log('Condition:', condition);
-    console.log('Size:', size);
-    console.log('Bid Price:', bidPrice);
-    console.log('Tags:', tags);
-    console.log('Price:', price);
-    console.log('Image URL:', imageUrl);
+    if (!title || !description || !condition || !size || !tags || !price) {
+      notyf.error('Please fill all the fields');
+      return;
+    }
+
+    let listingData = {
+      category,
+      title,
+      description,
+      condition,
+      size,
+      bidPrice: Number(bidPrice),
+      tags,
+      price: Number(price),
+      donation,
+      photos: [imageUrl],
+      user_id: localStorage.getItem('token'),
+    };
+
+    if (donation) {
+      listingData.price = 0;
+      listingData.bidPrice = 0;
+    }
+
+    axios.post(`${API_URL}/listings/new`, listingData)
+    .then((response) => {
+      notyf.success('Item listed successfully');
+      window.location.href = '/bid?state1=ongoing&state2=selling';
+    })
+    .catch((error) => {
+      notyf.error('Something went wrong');
+    });
   };
 
   return (
@@ -69,7 +113,9 @@ export default function NewListing() {
       {/* Header with title and close button */}
       <div style={styles.headerContainer}>
         <h1 style={styles.heading}>new listing</h1>
-        <div style={styles.closeButton} className="flex items-center justify-center">
+        <div style={styles.closeButton} className="flex items-center justify-center" onClick={() => {
+          window.location.href = '/bid';
+        }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
             <path d="M15.8334 4.16667L4.16669 15.8333M4.1667 4.16667L15.8334 15.8333" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -102,15 +148,23 @@ export default function NewListing() {
 
 
       {/* Category Section */}
-      <div className="mb-6">
+      <div className="mb-20" style={{ marginBottom: 15 }}>
         <div style={styles.label}>category</div>
         <div className="flex gap-2 mb-4">
-          <button style={styles.inactiveButton}>Electronics</button>
-          <button style={styles.activeButton}>Books</button>
+          <button style={category === "electronics" ? styles.activeButton : styles.inactiveButton} onClick={() => {
+            setCategory('electronics');
+          }}>Electronics</button>
+          <button style={category === "books" ? styles.activeButton : styles.inactiveButton} onClick={() => {
+            setCategory('books');
+          }}>Books</button>
         </div>
         <div className="flex gap-2">
-          <button style={styles.inactiveButton}>Clothing</button>
-          <button style={styles.activeButton}>Sneakers</button>
+          <button style={category === "clothing" ? styles.activeButton : styles.inactiveButton} onClick={() => {
+            setCategory('clothing');
+          }}>Clothing</button>
+          <button style={category === "sneakers" ? styles.activeButton : styles.inactiveButton} onClick={() => {
+            setCategory('sneakers');
+          }}>Sneakers</button>
         </div>
       </div>
 
@@ -187,9 +241,14 @@ export default function NewListing() {
             placeholder="$65"
             style={styles.halfInput}
             value={price}
+            disabled={donation}
             onChange={(e) => setPrice(e.target.value)}
           />
-          <button style={styles.donationButton}>It's a donation</button>
+          <button style={donation ? styles.activeDonationButton : styles.donationButton} onClick={() => {
+            setPrice('');
+            setBidPrice('');
+            setDonation(!donation);
+          }}>It's a donation</button>
         </div>
       </div>
 
@@ -283,7 +342,8 @@ const styles = {
   activeButton: {
     flex: '1',
     height: '50px',
-    width: '180px',
+    width: '150px',
+    marginLeft: '30px',
     borderRadius: '25px',
     marginRight: '10px',
     backgroundColor: '#73AB84',
@@ -297,7 +357,7 @@ const styles = {
     height: '50px',
     marginLeft: '30px',
     marginBottom:  '15px',
-    width: '180px',
+    width: '150px',
     borderRadius: '25px',
     marginRight: '10px',
     fontFamily: 'Plus Jakarta Sans',
@@ -347,8 +407,23 @@ const styles = {
     padding: '0 16px',
     border: 'none',
     fontFamily: 'Plus Jakarta Sans',
+    outline: 'none'
   },
   donationButton: {
+    flex: 1,
+    height: '50px',
+    borderRadius: '10px',
+    width: '200px',
+    backgroundColor: '#343537',
+    color: 'white',
+    border: 'none',
+    fontWeight: 600,
+    textAlign: 'left',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activeDonationButton: {
     flex: 1,
     height: '50px',
     borderRadius: '10px',
@@ -361,5 +436,5 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 };

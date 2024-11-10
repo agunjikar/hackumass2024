@@ -1,10 +1,41 @@
 import React, { useState } from 'react'
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { Notyf } from 'notyf';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const notyf = new Notyf({
+    duration: 4000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
 
   const handleLogin = () => {
+    if (!username || !password) {
+      notyf.error('Please fill all the fields');
+      return;
+    }
+
+    axios.post(`${API_URL}/login`, {
+      username,
+      password,
+    })
+    .then((response) => {
+      if (response.data.success === true) {
+        notyf.success('User logged in successfully');
+        localStorage.setItem('token', response.data.accessToken);
+        window.location.href = '/explore';
+      } else {
+        notyf.error('Invalid credentials');
+      }
+    })
+    .catch((error) => {
+      notyf.error('Something went wrong');
+    });
     console.log('Username:', username);
     console.log('Password:', password);
   }

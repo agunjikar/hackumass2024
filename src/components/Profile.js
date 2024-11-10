@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { API_URL } from '../constants';
+import axios from 'axios';
 
 export default function Profile() {
+    const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            window.location.href = '/login';
+            return;
+        }
+        axios.get(`${API_URL}/profile/${localStorage.getItem('token')}`)
+        .then((response) => {
+            setUser(response.data);
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }, []);
+
   return (
     <div className="container">
         <h1 style={styles.heading}>profile</h1>
@@ -31,8 +51,8 @@ export default function Profile() {
             </svg>
             </svg>
             <div style={styles.userInfo}>
-            <h2 style={styles.userName}>some name</h2>
-            <p style={styles.userEmail}>username | email@university.edu</p>
+            <h2 style={styles.userName}>{loading ? "username" : user.username}</h2>
+            <p style={styles.userEmail}>{loading ? "email@university.edu" : user.email}</p>
             </div>
         </div>
         
@@ -185,13 +205,22 @@ export default function Profile() {
             </div>
         </div>
 
-        <button style={styles.logoutButton}>log out</button>
+        <button style={styles.logoutButton} onClick={() => {
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }}>log out</button>
 
         <div style={styles.spacer}></div>
         <div style={styles.bottomBar}>
-            <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
-            <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
-            <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
+            <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
+                window.location.href = '/explore';
+            }} />
+            <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' onClick={() => {
+          window.location.href = '/wishlist';
+        }}/>
+            <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' onClick={() => {
+          window.location.href = '/bid';
+        }}/>
             <img src='images/bottom-nav-profile-active.svg' style={styles.bottomIcon} alt='profile' />
         </div>
 

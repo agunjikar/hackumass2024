@@ -1,6 +1,15 @@
 import React, { useState } from 'react'
+import { API_URL } from '../constants';
+import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+
 
 export default function PlaceBid() {
+        const [searchParams, setSearchParams] = useSearchParams();
+        const listingId = searchParams.get('listing');
+        const price = searchParams.get('price');
+        const title = searchParams.get('title');
+
     const [bid, setBid] = useState('');
 
     const handleBidChange = (event) => {
@@ -9,6 +18,18 @@ export default function PlaceBid() {
 
     const handlePlaceBid = () => {
         console.log(`Bid placed: ${bid}`);
+        axios.post(`${API_URL}/listing/placebid`, {
+                accessToken: localStorage.getItem('token'),
+                listing_id: listingId,
+                bid_price: Number(bid),
+        })
+        .then((response) => {
+                console.log(response);
+                window.location.href = '/orderconfirmed?price=' + price + '&title=' + title;
+        })
+        .catch((error) => {
+                console.error(error);
+        });
     };
 
     return (

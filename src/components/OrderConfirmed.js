@@ -1,9 +1,16 @@
 import React from 'react'
+import { useSearchParams } from 'react-router-dom';
 
 export default function PlaceBid() {
+    const [searchParams] = useSearchParams();
+    const price = searchParams.get('price');
+    const title = searchParams.get('title');
+
   return (
     <div className="container">
-        <button style = {styles.xButton}>
+        <button style = {styles.xButton} onClick={() => {
+            window.location.href = '/explore';
+        }}>
         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="50" height="50" rx="25" fill="#343537"/>
             <path d="M30.8334 19.1667L19.1667 30.8334M19.1667 19.1667L30.8334 30.8334" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -34,7 +41,7 @@ export default function PlaceBid() {
                 {/* Image Section */}
             <div style={styles.imageContainer}>
                 <img
-                src="./images/yeezy.png" // Replace with your image URL
+                src="./images/black-jacket.png" // Replace with your image URL
                 alt="Yeezy Foam Runner"
                 style={styles.image}
                 />
@@ -43,8 +50,8 @@ export default function PlaceBid() {
 
             {/* Description Section */}
             <div style={styles.descriptionContainer}>
-                <h2 style={styles.title}>yeezy foam runner</h2>
-                <h2 style={styles.price}>$234</h2>
+                <h2 style={styles.title}>{title ? title : "yeezy foam runner"}</h2>
+                <h2 style={styles.price}>${price ? price : "234"}</h2>
                 <h2 style={styles.statusMessage}>
                 your order has been accepted and we will be in contact with you
                 </h2>
