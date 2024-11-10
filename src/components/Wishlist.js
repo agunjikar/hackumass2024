@@ -17,31 +17,31 @@ export default function Wishlist() {
 
         <WishlistItem 
           imagePath="/images/yeezy.png" 
-          name="Yeezy Foam Runner" 
+          name="yeezy foam runner" 
           price="$345" 
-          description="Good condition. Almost new. Worn maybe 3-4 times."
+          description="good condition. almost new. worn maybe 3-4 times."
           tags={["size 12", "comfy"]}
         />
         
         <WishlistItem 
           imagePath="/images/yeezy.png" 
-          name="Yeezy Foam Runner" 
+          name="yeezy foam runner" 
           price="$345" 
-          description="Good condition. Almost new. Worn maybe 3-4 times."
+          description="good condition. almost new. worn maybe 3-4 times."
           tags={["size 12", "comfy"]}
         />
         <WishlistItem 
           imagePath="/images/yeezy.png" 
-          name="Yeezy Foam Runner" 
+          name="yeezy foam runner" 
           price="$345" 
-          description="Good condition. Almost new. Worn maybe 3-4 times."
+          description="good condition. almost new. worn maybe 3-4 times."
           tags={["size 12", "comfy"]}
         />
         <WishlistItem 
           imagePath="/images/yeezy.png" 
-          name="Yeezy Foam Runner" 
+          name="yeezy foam runner" 
           price="$345" 
-          description="Good condition. Almost new. Worn maybe 3-4 times."
+          description="good condition. almost new. worn maybe 3-4 times."
           tags={["size 12", "comfy"]}
         />
       </div>
