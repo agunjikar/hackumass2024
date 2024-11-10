@@ -56,7 +56,8 @@ const [wishlistItems, setWishlistItems] = useState([]);
 
     axios.get(url)
       .then((response) => {
-        setWishlistItems(response.data.wishlist_items);
+        console.log(response.data);
+        setWishlistItems(response.data);
       })
       .catch((error) => {
         notyf.error('Something went wrong');
@@ -69,7 +70,7 @@ const [wishlistItems, setWishlistItems] = useState([]);
       <h1 style={styles.heading}>wishlist</h1>
 
       <div style={styles.headerContainer}> 
-        <h1 style={styles.items1}>4</h1>
+        <h1 style={styles.items1}>{wishlistItems.length}</h1>
         <h1 style={styles.items2}>items</h1>
       </div>
 
@@ -77,9 +78,10 @@ const [wishlistItems, setWishlistItems] = useState([]);
       <div style={styles.grid}>
       {wishlistItems.map((item, index) => (
           <WishlistItem 
+            id={item._id}
             key={index}
             imagePath={item.imagePath} 
-            name={item.name} 
+            name={item.title} 
             price={item.price} 
             description={item.description}
             tags={item.tags}
@@ -92,30 +94,38 @@ const [wishlistItems, setWishlistItems] = useState([]);
 
       {/* Bottom navigation bar */}
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
-        <img src='images/bottom-nav-heart-active.svg' style={styles.bottomIcon} alt='heart' />
-        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
-        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
-      </div>
+                <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
+                    window.location.href = '/explore';
+                }} />
+                <img src='images/bottom-nav-heart-active.svg' style={styles.bottomIcon} alt='heart'/>
+                <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' onClick={() => {
+                    window.location.href = '/bid';
+                }}/>
+                <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
+                    window.location.href = '/profile';
+                }} />
+            </div>
 
     </div>
   );
 }
 
 
-function WishlistItem({ imagePath, name, price, description, tags }) {
+function WishlistItem({ id, imagePath, name, price, description, tags }) {
   return (
     <div style={styles.itemContainer}>
       <div style={styles.imageContainer}>
-        <img src={imagePath} alt={name} style={styles.itemImage} />
+        <img src="images/black-jacket.png" alt={name} style={styles.itemImage} />
       </div>
       <div style={styles.buttonsContainer}>
-        <button style={styles.view}>view</button>
+        <button style={styles.view} onClick={() => {
+          window.location.href = '/listing?id=' + id;
+        }}>view</button>
         <button style={styles.remove}>remove</button>
       </div>
       <div style={styles.productInfo}>
         <h2 style={styles.productName}>{name}</h2>
-        <p style={styles.productPrice}>{price}</p>
+        <p style={styles.productPrice}>${price}</p>
         <p style={styles.productDescription}>{description}</p>
       </div>
       <div style={styles.tagsContainer}>
