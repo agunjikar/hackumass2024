@@ -187,6 +187,7 @@ export default function Profile() {
 
         <button style={styles.logoutButton}>log out</button>
 
+        <div style={styles.spacer}></div>
         <div style={styles.bottomBar}>
             <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
             <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
@@ -344,5 +345,8 @@ const styles = {
     },
     bottomIcon: {
         color: 'white',
+    },
+    spacer: {
+        height: '6rem',
     }
 };
