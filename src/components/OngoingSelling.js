@@ -1,25 +1,53 @@
 import React from 'react'
-
+import { useState } from 'react';
 
 export default function OngoingSelling() {
+  const [activeButton, setActiveButton] = useState('ongoing');
+
+  const handleButtonClick = (buttonName) => {
+    setActiveButton(buttonName);
+  };
+
+  const getButtonStyle = (buttonName) => {
+    return activeButton === buttonName
+      ? { backgroundColor: '#73AB84', color: 'black' }
+      : { backgroundColor: '#343537', color: 'white' };
+  };
+
   return (
     <div className="container">
-        <div style={styles.rowContainer}>
+      <div style={styles.rowContainer}>
         <h1 style={styles.heading}>bids/listings</h1>
-        <h1 style={styles.plusButton}>+</h1> 
-        </div>
-        <div style={styles.buttonContainer}> {/* Flex container for buttons */}
-        <div style={styles.ongoingButton}>
+        <h1 style={styles.plusButton}>+</h1>
+      </div>
+      <div style={styles.buttonContainer}>
+        <div
+          style={{ ...styles.ongoingButton, ...getButtonStyle('ongoing') }}
+          onClick={() => handleButtonClick('ongoing')}
+        >
           <span style={styles.ongoingWord}>ongoing</span>
         </div>
-        <div style={styles.completedButton}>
+        <div
+          style={{ ...styles.completedButton, ...getButtonStyle('completed') }}
+          onClick={() => handleButtonClick('completed')}
+        >
           <span style={styles.completedWord}>completed</span>
         </div>
       </div>
       <div style={styles.buttonContainer}>
-      <button style={styles.buying}>buying</button>
-      <button style={styles.selling}>selling</button>
-    </div>
+        <button
+          style={{ ...styles.buying, ...getButtonStyle('buying') }}
+          onClick={() => handleButtonClick('buying')}
+        >
+          buying
+        </button>
+        <button
+          style={{ ...styles.selling, ...getButtonStyle('selling') }}
+          onClick={() => handleButtonClick('selling')}
+        >
+          selling
+        </button>
+      </div>
 
     <div style={styles.listings}>
             <div style={styles.listing}>
@@ -81,11 +109,10 @@ export default function OngoingSelling() {
 
       {/* Spacer to prevent overlap with bottom bar */}
       <div style={styles.spacer}></div>
-
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
+        <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
         <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
-        <img src='images/bottom-nav-bid-active.svg' style={styles.bottomIcon} alt='bid' />
+        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
         <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
       </div>
             
@@ -487,7 +514,5 @@ const styles = {
       cursor: 'pointer',
       fontFamily: "Plus Jakarta Sans",
     },
-    spacer: {
-      height: '7rem',
-    }
+
 }

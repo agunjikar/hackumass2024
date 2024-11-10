@@ -1,71 +1,93 @@
-import React from 'react'
+import React, { useState } from 'react';
 
 export default function Discovery() {
-  return (
-    <div className="container">
-        <h1 style={styles.heading}>explore</h1>
-        <div style={styles.header}>
-            <div style={styles.searchBar}>
-                <input type="text" style={styles.input} placeholder="Search for a product..." />
-                <img src="images/search.svg" style={styles.searchIcon} alt='search' />
-            </div>
-            <div style={styles.filter}>
-                <img src="images/filter.svg" style={styles.filterIcon} alt='filter' />
-            </div>
-        </div>
-        <div style={styles.tabs}>
-            <div style={styles.activeTab}>
-                <h2 style={styles.activeTabText}>hot</h2>
-            </div>
-            <div style={styles.tab}>
-                <h2 style={styles.tabText}>new</h2>
-            </div>
-            <div style={styles.tab}>
-                <h2 style={styles.tabText}>donated</h2>
-            </div>
-        </div>
-        <div style={styles.listings}>
-            <div style={styles.listing}>
-                <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
-                <div style={styles.listingDetails}>
-                    <div style={styles.headerComponent}>
-                        <p style={styles.listingTitle}>foam runners</p>
-                        <img src='images/heart.svg' style={styles.heartIcon} alt='heart' />
-                    </div>
-                    <p style={styles.listingPrice}>$345</p>
-                    <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-                    <div style={styles.tags}>
-                        <p style={styles.tag}>size: men's 12</p>
-                        <p style={styles.tag}>comfy</p>
-                    </div>
-                </div>
-            </div>
-            <div style={styles.listing}>
-                <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
-                <div style={styles.listingDetails}>
-                    <div style={styles.headerComponent}>
-                        <p style={styles.listingTitle}>yeezy foam runners</p>
-                        <img src='images/active-heart.svg' style={styles.heartIcon} alt='heart' />
-                    </div>
-                    <p style={styles.listingPrice}>$345</p>
-                    <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-                    <div style={styles.tags}>
-                        <p style={styles.tag}>size: men's 12</p>
-                        <p style={styles.tag}>comfy</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    const [search, setSearch] = useState('');
+    const [searchIcon] = useState('images/search.svg');
 
-        <div style={styles.spacer}></div>
-        <div style={styles.bottomBar}>
-            <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
-            <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
-            <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
-            <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const handleSearchIconClick = () => {
+        console.log(search);
+    };
+
+    return (
+        <div className="container">
+            <h1 style={styles.heading}>explore</h1>
+            <div style={styles.header}>
+                <div style={styles.searchBar}>
+                    <input
+                        type="text"
+                        style={styles.input}
+                        placeholder="Search for a product..."
+                        value={search}
+                        onChange={handleSearchChange}
+                    />
+                    <img
+                        src={searchIcon}
+                        style={styles.searchIcon}
+                        alt='search'
+                        onClick={handleSearchIconClick}
+                    />
+                </div>
+                <div style={styles.filter}>
+                    <img src="images/filter.svg" style={styles.filterIcon} alt='filter' />
+                </div>
+            </div>
+            <div style={styles.tabs}>
+                <div style={styles.activeTab}>
+                    <h2 style={styles.activeTabText}>hot</h2>
+                </div>
+                <div style={styles.tab}>
+                    <h2 style={styles.tabText}>new</h2>
+                </div>
+                <div style={styles.tab}>
+                    <h2 style={styles.tabText}>donated</h2>
+                </div>
+            </div>
+            <div style={styles.listings}>
+                <div style={styles.listing}>
+                    <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
+                    <div style={styles.listingDetails}>
+                        <div style={styles.headerComponent}>
+                            <p style={styles.listingTitle}>foam runners</p>
+                            <img src='images/heart.svg' style={styles.heartIcon} alt='heart' />
+                        </div>
+                        <p style={styles.listingPrice}>$345</p>
+                        <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
+                        <div style={styles.tags}>
+                            <p style={styles.tag}>size: men's 12</p>
+                            <p style={styles.tag}>comfy</p>
+                        </div>
+                    </div>
+                </div>
+                <div style={styles.listing}>
+                    <img src="https://github.com/sheldor1510.png" style={styles.listingImage} alt='listingImage' />
+                    <div style={styles.listingDetails}>
+                        <div style={styles.headerComponent}>
+                            <p style={styles.listingTitle}>yeezy foam runners</p>
+                            <img src='images/active-heart.svg' style={styles.heartIcon} alt='heart' />
+                        </div>
+                        <p style={styles.listingPrice}>$345</p>
+                        <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
+                        <div style={styles.tags}>
+                            <p style={styles.tag}>size: men's 12</p>
+                            <p style={styles.tag}>comfy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style={styles.spacer}></div>
+            <div style={styles.bottomBar}>
+                <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
+                <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
+                <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
+                <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
+            </div>
         </div>
-    </div>
-  )
+    );
 }
 
 const styles = {

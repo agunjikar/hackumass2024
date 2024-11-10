@@ -1,76 +1,148 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function NewListing() {
+  // States for input fields
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [condition, setCondition] = useState('');
+  const [size, setSize] = useState('');
+  const [bidPrice, setBidPrice] = useState('');
+  const [tags, setTags] = useState('');
+  const [price, setPrice] = useState('');
+
+  // Function to handle listing item
+  const handleListItem = () => {
+    console.log('Title:', title);
+    console.log('Description:', description);
+    console.log('Condition:', condition);
+    console.log('Size:', size);
+    console.log('Bid Price:', bidPrice);
+    console.log('Tags:', tags);
+    console.log('Price:', price);
+  };
+
   return (
     <div className="container p-6 bg-black text-white max-w-md mx-auto">
-        {/* Header with title and close button */}
-        <div style={styles.headerContainer}>
-            <h1 style={styles.heading}>new listing</h1>
-            <div style={styles.closeButton} className="flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
-                <path d="M15.8334 4.16667L4.16669 15.8333M4.1667 4.16667L15.8334 15.8333" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            </div>
+      {/* Header with title and close button */}
+      <div style={styles.headerContainer}>
+        <h1 style={styles.heading}>new listing</h1>
+        <div style={styles.closeButton} className="flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+            <path d="M15.8334 4.16667L4.16669 15.8333M4.1667 4.16667L15.8334 15.8333" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
+      </div>
 
-        <div style={styles.photoUploadBox} className="flex flex-col items-center justify-center mb-6 relative">
-            {/* Outer Box */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="370" height="370" fill="none">
-                <rect x="1.25" y="1.25" width="368.5" height="368.5" rx="48.75" stroke="#73AB84" strokeWidth="2.5" />
-            </svg>
-            {/* Inner Circle with Plus Sign */}
-            <div style={styles.innerCircle}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" fill="none">
-                <path d="M28.5 12.5v33M12.5 28.5h33" stroke="#73AB84" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-            </div>
-            {/* Add Photos Text Below the Plus Sign */}
-            <div style={styles.addPhotosText}>
-                add photos
-            </div>
+      <div style={styles.photoUploadBox} className="flex flex-col items-center justify-center mb-6 relative">
+        <svg xmlns="http://www.w3.org/2000/svg" width="370" height="370" fill="none">
+          <rect x="1.25" y="1.25" width="368.5" height="368.5" rx="48.75" stroke="#73AB84" strokeWidth="2.5" />
+        </svg>
+        <div style={styles.innerCircle}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" fill="none">
+            <path d="M28.5 12.5v33M12.5 28.5h33" stroke="#73AB84" strokeWidth="2" strokeLinecap="round" />
+          </svg>
         </div>
+        <div style={styles.addPhotosText}>add photos</div>
+      </div>
 
-        <div className="mb-6">
-            <div style={styles.label}>category</div>
-
-            {/* First row of category buttons */}
-            <div className="flex gap-2 mb-4">
-                <button style={styles.inactiveButton}>Electronics</button>
-                <button style={styles.activeButton}>Books</button>
-            </div>
-
-            {/* Second row of category buttons */}
-            <div className="flex gap-2">
-                <button style={styles.inactiveButton}>Clothing</button>
-                <button style={styles.activeButton}>Sneakers</button>
-            </div>
+      {/* Category Section */}
+      <div className="mb-6">
+        <div style={styles.label}>category</div>
+        <div className="flex gap-2 mb-4">
+          <button style={styles.inactiveButton}>Electronics</button>
+          <button style={styles.activeButton}>Books</button>
         </div>
+        <div className="flex gap-2">
+          <button style={styles.inactiveButton}>Clothing</button>
+          <button style={styles.activeButton}>Sneakers</button>
+        </div>
+      </div>
 
       {/* Input Fields */}
       <div className="space-y-6">
-        {["title", "description", "condition", "size", "bid price", "tags"].map((field, index) => (
-          <div key={index}>
-            <div style={styles.label}>{field}</div>
-            <input
-              type="text"
-              placeholder={`Enter ${field}`}
-              style={styles.input}
-            />
-          </div>
-        ))}
+        <div>
+          <div style={styles.label}>title</div>
+          <input
+            type="text"
+            placeholder="Enter title"
+            style={styles.input}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <div style={styles.label}>description</div>
+          <input
+            type="text"
+            placeholder="Enter description"
+            style={styles.input}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div>
+          <div style={styles.label}>condition</div>
+          <input
+            type="text"
+            placeholder="Enter condition"
+            style={styles.input}
+            value={condition}
+            onChange={(e) => setCondition(e.target.value)}
+          />
+        </div>
+        <div>
+          <div style={styles.label}>size</div>
+          <input
+            type="text"
+            placeholder="Enter size"
+            style={styles.input}
+            value={size}
+            onChange={(e) => setSize(e.target.value)}
+          />
+        </div>
+        <div>
+          <div style={styles.label}>bid price</div>
+          <input
+            type="text"
+            placeholder="Enter bid price"
+            style={styles.input}
+            value={bidPrice}
+            onChange={(e) => setBidPrice(e.target.value)}
+          />
+        </div>
+        <div>
+          <div style={styles.label}>tags</div>
+          <input
+            type="text"
+            placeholder="Enter tags"
+            style={styles.input}
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+        </div>
       </div>
 
-        {/* Price and Donation Fields */}
-        <div className="mb-6">
+      {/* Price and Donation Fields */}
+      <div className="mb-6">
         <div style={styles.label}>price</div>
         <div style={styles.inputRow} className="flex items-center gap-2">
-            <input type="text" placeholder="$65" style={styles.halfInput} />
-            <button style={styles.donationButton}>It's a donation</button>
+          <input
+            type="text"
+            placeholder="$65"
+            style={styles.halfInput}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <button style={styles.donationButton}>It's a donation</button>
         </div>
-        </div>
+      </div>
 
       {/* List Item Button */}
-      <button style={styles.listButton} className="w-full mt-6">
+      <button
+        style={styles.listButton}
+        className="w-full mt-6"
+        onClick={handleListItem}
+      >
         list item
       </button>
     </div>

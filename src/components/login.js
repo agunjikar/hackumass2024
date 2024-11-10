@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    console.log('Username:', username);
+    console.log('Password:', password);
+  }
+
   return (
     <div className="container">
         <h1 style={styles.heading1}>login</h1>
@@ -9,6 +17,8 @@ export default function Login() {
           style={styles.input}
           type="text"
           placeholder="anshulsaha"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
 
         <label style={styles.label}>password</label>
@@ -16,9 +26,11 @@ export default function Login() {
           style={styles.input}
           type="password"
           placeholder="***********"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         
-        <button style={styles.button1}>login</button>
+        <button style={styles.button1} onClick={handleLogin}>login</button>
     </div>
   )
 }

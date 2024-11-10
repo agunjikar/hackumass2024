@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Verify() {
+  const [verificationCode, setVerificationCode] = useState('')
+
+  const handleVerify = () => {
+    console.log(verificationCode)
+  }
+
   return (
     <div className="container">
         <h1 style={styles.heading1}>verify</h1>
@@ -9,9 +15,11 @@ export default function Verify() {
           style={styles.input}
           type="text"
           placeholder="123456"
+          value={verificationCode}
+          onChange={(e) => setVerificationCode(e.target.value)}
         />
         
-        <button style={styles.button1}>verify</button>
+        <button style={styles.button1} onClick={handleVerify}>verify</button>
     </div>
   )
 }
