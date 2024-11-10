@@ -1,21 +1,14 @@
 import React from 'react'
 
-export default function Register() {
+export default function Login() {
   return (
     <div className="container">
-        <h1 style={styles.heading1}>register</h1>
-        <label style={styles.label}>university email</label>
-        <input
-          style={styles.input}
-          type="email"
-          placeholder="anshulsaha@umass.edu"
-        />
-
+        <h1 style={styles.heading1}>login</h1>
         <label style={styles.label}>username</label>
         <input
           style={styles.input}
           type="text"
-          placeholder="@anshulsaha"
+          placeholder="anshulsaha"
         />
 
         <label style={styles.label}>password</label>
@@ -25,7 +18,7 @@ export default function Register() {
           placeholder="***********"
         />
         
-        <button style={styles.button1}>register</button>
+        <button style={styles.button1}>login</button>
     </div>
   )
 }
@@ -83,6 +76,6 @@ const styles = {
     bottom: '25%',
     fontFamily: "Plus Jakarta Sans",
     fontWeight: 600,
-    marginTop: '240px'
+    marginTop: '380px'
   }
 }

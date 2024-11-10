@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Register from './components/Register';
 import Discovery from "./components/Discovery";
+import Wishlist from "./components/Wishlist";
+import Login from "./components/login";
+import Verify from "./components/Verify";
 import './global.css'
 
 function App() {
@@ -12,6 +15,10 @@ function App() {
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="discovery" element={<Discovery />} />
+          <Route path="wishlist" element={<Wishlist />} />
+          <Route path="home" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="verify" element={<Verify />} />
         </Route>
       </Routes>
     </BrowserRouter>
