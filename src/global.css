@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:ital,wght@0,200,400,600,800;1,200,400,600,800&display=swap');
+
+.container {
+    background-color: #2B2B2B;
+    height: 100vh;
+    min-height: 100vh;
+    position: fixed;
+    min-width: 100vw;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+}
