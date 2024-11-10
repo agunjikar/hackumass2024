@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
-import { API_URL } from '../constants';
-import axios from 'axios';
-import { Notyf } from 'notyf';
 
 export default function OngoingSelling() {
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: 'right',
-      y: 'top',
-    }
-  });
-
   const [activeTopButton, setActiveTopButton] = useState('ongoing');
   const [activeBottomButton, setActiveBottomButton] = useState('buying');
-  const [showBids, setShowBids] = useState(true);
-  const [isChevronUp, setIsChevronUp] = useState(true);
+  const [expandedListingIndex, setExpandedListingIndex] = useState(null); // Track expanded listing
+
+  // State for ongoing bids
+  const [ongoingBids, setOngoingBids] = useState([
+    {
+      imagePath: "https://github.com/sheldor1510.png",
+      title: "foam runners",
+      price: "$345",
+      description: "good condition. almost new. worn maybe 3-4 times...",
+      tags: ["size: men's 12", "comfy"],
+      bids: [
+        { amount: "$250", bidder: "@anshul" },
+        { amount: "$234", bidder: "@tanush" }
+      ]
+    },
+    {
+      imagePath: "https://github.com/sheldor1510.png",
+      title: "another item",
+      price: "$200",
+      description: "lightly used, in great condition.",
+      tags: ["size: men's 10", "stylish"],
+      bids: [
+        { amount: "$180", bidder: "@jane" },
+        { amount: "$170", bidder: "@john" }
+      ]
+    }
+  ]);
 
   const handleTopButtonClick = (buttonName) => {
     setActiveTopButton(buttonName);
@@ -25,10 +39,9 @@ export default function OngoingSelling() {
     setActiveBottomButton(buttonName);
   };
 
-  const handleListingClick = () => {
-    setShowBids((prevState) => !prevState);
-    setIsChevronUp((prevState) => !prevState);
-  };  
+  const handleListingClick = (index) => {
+    setExpandedListingIndex(prevIndex => prevIndex === index ? null : index); // Toggle visibility
+  };
 
   const getButtonStyle = (buttonName, isActive) => {
     return isActive
@@ -41,9 +54,7 @@ export default function OngoingSelling() {
       {/* Header */}
       <div style={styles.rowContainer}>
         <h1 style={styles.heading}>bids/listings</h1>
-        <h1 style={styles.plusButton} onClick={() => {
-          window.location.href = '/new-listing';
-        }}>+</h1>
+        <h1 style={styles.plusButton}>+</h1>
       </div>
 
       {/* Top Buttons: Ongoing and Completed */}
@@ -78,75 +89,60 @@ export default function OngoingSelling() {
         </button>
       </div>
 
-      <div style={styles.listing} onClick={handleListingClick}>
-  <div style={styles.listingInline}>
-    <img src="images/yeezy.png" style={styles.listingImage} alt="listingImage" />
-    <div style={styles.listingDetails}>
-      <div style={styles.headerComponent}>
-        <p style={styles.listingTitle}>foam runners</p>
-        <img
-          src={isChevronUp ? 'images/chevron-up.svg' : 'images/chevron-down.svg'}
-          style={styles.heartIcon}
-          alt="chevron-icon"
-        />
-      </div>
-      <p style={styles.listingPrice}>$345</p>
-      <p style={styles.listingDescription}>good condition. almost new. worn maybe 3-4 times...</p>
-      <div style={styles.tags}>
-        <p style={styles.tag}>size: men's 12</p>
-        <p style={styles.tag}>comfy</p>
-      </div>
-    </div>
-  </div>
+      {/* Ongoing Bids Listing */}
+      {ongoingBids.map((item, index) => (
+        <div key={index} style={styles.listing} onClick={() => handleListingClick(index)}>
+          <div style={styles.listingInline}>
+            <img src={item.imagePath} style={styles.listingImage} alt="listingImage" />
+            <div style={styles.listingDetails}>
+              <div style={styles.headerComponent}>
+                <p style={styles.listingTitle}>{item.title}</p>
+                <img
+                  src={expandedListingIndex === index ? 'images/chevron-up.svg' : 'images/chevron-down.svg'}
+                  style={styles.heartIcon}
+                  alt="chevron-icon"
+                />
+              </div>
+              <p style={styles.listingPrice}>{item.price}</p>
+              <p style={styles.listingDescription}>{item.description}</p>
+              <div style={styles.tags}>
+                {item.tags.map((tag, i) => (
+                  <p key={i} style={styles.tag}>{tag}</p>
+                ))}
+              </div>
+            </div>
+          </div>
 
-  {showBids && (
-  <div style={styles.bidItems}>
-    <h3 style={styles.bidsHeading}>bids</h3>
-    
-    {/* First Bid */}
-    <div style={styles.bidItem}>
-      <span style={styles.bidAmount}>$250</span>
-      <span style={styles.bidder}>by @anshul</span>
-      <div style={styles.bidActions}>
-        <button style={styles.acceptButton}>✅</button>
-        <button style={styles.rejectButton}>❌</button>
-      </div>
-    </div>
-
-    {/* Second Bid */}
-    <div style={styles.bidItem}>
-      <span style={styles.bidAmount}>$234</span>
-      <span style={styles.bidder}>by @tanush</span>
-      <div style={styles.bidActions}>
-        <button style={styles.acceptButton}>✅</button>
-        <button style={styles.rejectButton}>❌</button>
-      </div>
-    </div>
-  </div>
-)}
-
-</div>
-
+          {expandedListingIndex === index && (
+            <div style={styles.bidItems}>
+              <h3 style={styles.bidsHeading}>bids</h3>
+              {item.bids.map((bid, i) => (
+                <div key={i} style={styles.bidItem}>
+                  <span style={styles.bidAmount}>{bid.amount}</span>
+                  <span style={styles.bidder}>by {bid.bidder}</span>
+                  <div style={styles.bidActions}>
+                    <button style={styles.acceptButton}>✅</button>
+                    <button style={styles.rejectButton}>❌</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
 
       {/* Spacer to prevent overlap with bottom bar */}
       <div style={styles.spacer}></div>
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
-          window.location.href = '/explore';
-        }} />
-        <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' onClick={() => {
-          window.location.href = '/wishlist';
-        }}/>
-        <img src='images/bottom-nav-bid-active.svg' style={styles.bottomIcon} alt='bid' />
-        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
-          window.location.href = '/profile';
-        }}/>
+        <img src='images/bottom-nav-search-active.svg' style={styles.bottomIcon} alt='explore' />
+        <img src='images/bottom-nav-heart.svg' style={styles.bottomIcon} alt='heart' />
+        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
+        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
       </div>
-            
     </div>
-    
-  )
+  );
 }
+
 
 const styles = {
     'heading': {

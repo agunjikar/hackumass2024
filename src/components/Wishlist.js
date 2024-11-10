@@ -1,6 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Notyf } from 'notyf';
+import { API_URL } from '../constants';
 
 export default function Wishlist() {
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: 'right',
+      y: 'top',
+    }
+  });
+
+
+  // const [wishlistItems, setWishlistItems] = useState([
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   {
+  //     imagePath: "/images/yeezy.png",
+  //     name: "yeezy foam runner",
+  //     price: "$345",
+  //     description: "good condition. almost new. worn maybe 3-4 times.",
+  //     tags: ["size 12", "comfy"]
+  //   },
+  //   // Add more items as needed or fetch dynamically later
+  // ]);
+
+const [wishlistItems, setWishlistItems] = useState([]);
+
+  useEffect(() => {
+    fetchWishlistItems();
+  }, []);
+
+  const fetchWishlistItems = () => {
+    const url = `${API_URL}/wishlist?accessToken=${localStorage.getItem('token')}`;
+
+    axios.get(url)
+      .then((response) => {
+        setWishlistItems(response.data.wishlist_items);
+      })
+      .catch((error) => {
+        notyf.error('Something went wrong');
+      });
+  };
+
   return (
     <div className="container" style={styles.container}>
       
@@ -13,34 +75,16 @@ export default function Wishlist() {
 
       {/* Wishlist items */}
       <div style={styles.grid}>
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
-        <WishlistItem 
-          imagePath="/images/yeezy.png" 
-          name="yeezy foam runner" 
-          price="$345" 
-          description="good condition. almost new. worn maybe 3-4 times."
-          tags={["size 12", "comfy"]}
-        />
+      {wishlistItems.map((item, index) => (
+          <WishlistItem 
+            key={index}
+            imagePath={item.imagePath} 
+            name={item.name} 
+            price={item.price} 
+            description={item.description}
+            tags={item.tags}
+          />
+        ))}
       </div>
 
       {/* Spacer to prevent overlap with bottom bar */}
@@ -48,23 +92,17 @@ export default function Wishlist() {
 
       {/* Bottom navigation bar */}
       <div style={styles.bottomBar}>
-        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' onClick={() => {
-          window.location.href = '/explore';
-        }}/>
+        <img src='images/bottom-nav-search.svg' style={styles.bottomIcon} alt='explore' />
         <img src='images/bottom-nav-heart-active.svg' style={styles.bottomIcon} alt='heart' />
-        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' onClick={() => {
-          window.location.href = '/bid';
-        }} />
-        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' onClick={() => {
-          window.location.href = '/profile';
-        }}/>
+        <img src='images/bottom-nav-bid.svg' style={styles.bottomIcon} alt='bid' />
+        <img src='images/bottom-nav-profile.svg' style={styles.bottomIcon} alt='profile' />
       </div>
 
     </div>
   );
 }
 
-// Wishlist Item Component
+
 function WishlistItem({ imagePath, name, price, description, tags }) {
   return (
     <div style={styles.itemContainer}>
@@ -88,6 +126,8 @@ function WishlistItem({ imagePath, name, price, description, tags }) {
     </div>
   );
 }
+
+
 
 const styles = {
   container: {
