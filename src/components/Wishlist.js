@@ -3,192 +3,222 @@ import React from 'react';
 export default function Wishlist() {
   return (
     <div className="container" style={styles.container}>
-        <h1 style={styles.heading1}>wishlist</h1>
-        
-        <div style={styles.card}>
-            <div style={styles.cardHeader}>
-                <img 
-                  src="https://via.placeholder.com/150" // Replace with actual image URL
-                  alt="product"
-                  style={styles.productImage}
-                />
-                <div style={styles.productInfo}>
-                    <h2 style={styles.productTitle}>yeezy foam runner</h2>
-                    <p style={styles.productPrice}>$345</p>
-                    <p style={styles.productDescription}>
-                        good condition. almost new. worn maybe 3–4 times...
-                    </p>
-                    <div style={styles.bidInfo}>
-                        <span style={styles.bidCount}>2 bids</span>
-                        <span style={styles.highestBid}>highest: $250</span>
-                    </div>
-                </div>
-            </div>
-            
-            <h3 style={styles.bidsHeading}>bids</h3>
-            
-            <div style={styles.bidItem}>
-                <span style={styles.bidAmount}>$250</span>
-                <span style={styles.bidder}>by @anshul</span>
-                <div style={styles.bidActions}>
-                    <button style={styles.acceptButton}>✔️</button>
-                    <button style={styles.rejectButton}>❌</button>
-                </div>
-            </div>
+      
+      <h1 style={styles.heading}>wishlist</h1>
 
-            <div style={styles.bidItem}>
-                <span style={styles.bidAmount}>$234</span>
-                <span style={styles.bidder}>by @tanush</span>
-                <div style={styles.bidActions}>
-                    <button style={styles.acceptButton}>✔️</button>
-                    <button style={styles.rejectButton}>❌</button>
-                </div>
-            </div>
-        </div>
+      <div style={styles.headerContainer}> 
+        <h1 style={styles.items1}>4</h1>
+        <h1 style={styles.items2}>items</h1>
+      </div>
+
+      {/* Wishlist items */}
+      <div style={styles.grid}>
+        {/* Example items */}
+
+        <WishlistItem 
+          imagePath="/images/yeezy.png" 
+          name="Yeezy Foam Runner" 
+          price="$345" 
+          description="Good condition. Almost new. Worn maybe 3-4 times."
+          tags={["size 12", "comfy"]}
+        />
+        
+        <WishlistItem 
+          imagePath="/images/yeezy.png" 
+          name="Yeezy Foam Runner" 
+          price="$345" 
+          description="Good condition. Almost new. Worn maybe 3-4 times."
+          tags={["size 12", "comfy"]}
+        />
+        <WishlistItem 
+          imagePath="/images/yeezy.png" 
+          name="Yeezy Foam Runner" 
+          price="$345" 
+          description="Good condition. Almost new. Worn maybe 3-4 times."
+          tags={["size 12", "comfy"]}
+        />
+        <WishlistItem 
+          imagePath="/images/yeezy.png" 
+          name="Yeezy Foam Runner" 
+          price="$345" 
+          description="Good condition. Almost new. Worn maybe 3-4 times."
+          tags={["size 12", "comfy"]}
+        />
+      </div>
+
     </div>
   );
 }
 
+// Wishlist Item Component
+function WishlistItem({ imagePath, name, price, description, tags }) {
+  return (
+    <div style={styles.itemContainer}>
+      {/* Image container */}
+      <div style={styles.imageContainer}>
+        <img src={imagePath} alt={name} style={styles.itemImage} />
+      </div>
+
+      {/* Buttons */}
+      <div style={styles.buttonsContainer}>
+        <button style={styles.view}>view</button>
+        <button style={styles.remove}>remove</button>
+      </div>
+
+      {/* Product info */}
+      <div style={styles.productInfo}>
+        <h2 style={styles.productName}>{name}</h2>
+        <p style={styles.productPrice}>{price}</p>
+        <p style={styles.productDescription}>{description}</p>
+      </div>
+
+      {/* Tags */}
+      <div style={styles.tagsContainer}>
+        {tags.map((tag, index) => (
+          <div key={index} style={styles.tag}>{tag}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+
+
 const styles = {
-  container: {
+  heading: {
+    color: '#FFFFFF',
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: 700,
+    fontSize: '40px',
+    marginLeft: '28px',
+    marginBottom: '4px',
+    flexShrink: 0
+  },
+  headerContainer: {
     display: 'flex',
-    justifyContent: 'center', // Centers horizontally
-    alignItems: 'center', // Centers vertically
-    minHeight: '100vh', // Full viewport height
-    backgroundColor: '#1f1f1f', // Assuming dark background based on design
-    overflow: 'hidden', // Prevents overflow from pushing content outside the viewport
+    alignItems: 'baseline',
+    marginLeft: '28px',
+    marginTop: '-10px'
   },
-  heading1: {
-    display: 'none' // Hide heading if not needed
+  items1: {
+    color: '#73AB84',
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: 600,
+    fontSize: '24px',
+    marginRight: '1%',
+    flexShrink: 0
   },
-  card: {
-    width: '100%',
-    maxWidth: '379px', // Ensures card doesn’t exceed specified width
+  items2: {
+    color: 'var(--Backgrounds-Primary, #FFF)',
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: '18px',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    lineHeight: 'normal'
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)', // Two items per row
+    gap: '20px',
+    width: '90%',
+    marginLeft: '20px',
+    boxSizing: 'border-box'
+  },
+  itemContainer: {
+    width: '100%', // Takes up 70% of the grid cell width
+    height: '350px', // Set height to around 250px
+    borderRadius: '10px',
     backgroundColor: '#343537',
-    borderRadius: '10px',
-    padding: '20px',
-    color: 'white',
-    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-    fontFamily: "Plus Jakarta Sans",
-    boxSizing: 'border-box', // Ensures padding doesn't push the card outside maxWidth
-  },
-  cardHeader: {
-    display: 'flex',
-    marginBottom: '20px',
-  },
-  productImage: {
-    width: '100px',
-    height: '100px',
-    borderRadius: '10px',
-    marginRight: '15px',
-  },
-  productInfo: {
+    padding: '6px', // Reduced padding
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    boxSizing: 'border-box' // Ensures padding does not cause overflow
   },
-  productTitle: {
-    fontSize: '18px',
-    fontWeight: 700,
-    marginBottom: '-14px',
-    marginTop: '2px',
-    marginLeft: '5px',
-    fontFamily: "Plus Jakarta Sans",
+  imageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '0'
+  },
+  itemImage: {
+    width: '150px', // Scaled down width for the image
+    height: '150px', // Scaled down height for the image
+    borderRadius: '10px',
+    backgroundColor: '#A9A9A9', // Placeholder color if image fails to load
+    objectFit: 'cover' // Ensures the image fits within the box without distortion
+  },
+  buttonsContainer: {
+    marginTop: '10px',
+    display: 'flex',
+    gap: '6px', // Reduced gap between buttons
+  },
+  view: {
+    width: '75px', // Scaled down width for buttons
+    height: '28px', // Scaled down height for buttons
+    borderRadius: '10px',
+    backgroundColor: '#73AB84',
+    color: '#000000',
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: '13px', // Scaled down font size
+    fontWeight: '700',
+    border: 'none',
+    cursor: 'pointer'
+  },
+  remove: {
+    width: '75px', // Scaled down width for buttons
+    height: '28px', // Scaled down height for buttons
+    borderRadius: '10px',
+    backgroundColor: '#999',
+    color: '#000000',
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: '13px', // Scaled down font size
+    fontWeight: '700',
+    border: 'none',
+    cursor: 'pointer'
+  },
+  productInfo: {
+    marginLeft: '7%'
+
+  },
+  productName: {
+    color: '#FFFFFF',
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: 600,
+    fontSize: '13px',
+    marginBottom: '5px'
   },
   productPrice: {
-    fontSize: '24px',
-    fontWeight: 700,
-    color: '#FFF',
-    marginBottom: '5px',
-    marginLeft: '5px',
-    fontFamily: "Plus Jakarta Sans",
+    color: '#FFFFFF',
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: 600,
+    fontSize: '12px', // Scaled down font size to keep consistent with productName
+    marginBottom: '5px'
   },
   productDescription: {
-    fontSize: '14px',
-    color: 'rgba(255, 255, 255, 0.75)',
-    marginTop: '-6px',
-    marginLeft: '5px',
-    fontFamily: "Plus Jakarta Sans",
+    color: '#A9A9A9',
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: '10px', // Further reduced font size
+    marginBottom: '5px'
   },
-  bidInfo: {
+  tagsContainer: {
     display: 'flex',
-    gap: '10px',
+    gap: '10px' // Reduced gap between tags
   },
-  bidCount: {
-    color: '#1F4F2E',
-    fontSize: '12px',
-    fontFamily: 'Plus Jakarta Sans',
-    fontWeight: 700,
-    wordWrap: 'break-word',
-    backgroundColor: '#d0e8d1',
-    padding: '5px 10px',
+  tag: {
+    width: '72px',
+    height: '30px', // Reduced height for tags
     borderRadius: '50px',
-  },
-  highestBid: {
+    backgroundColor: '#EDF2D7',
     color: '#1F4F2E',
-    fontSize: '12px',
     fontFamily: 'Plus Jakarta Sans',
-    fontWeight: 700,
-    wordWrap: 'break-word',
-    backgroundColor: '#d0e8d1',
-    padding: '5px 10px',
-    borderRadius: '50px',
-  },
-  bidsHeading: {
-    fontSize: '20px',
-    fontWeight: 700,
-    marginTop: '10px',
-    marginBottom: '10px',
-    fontFamily: "Plus Jakarta Sans",
-  },
-  bidItem: {
+    fontSize: '12px', // Further reduced font size for tags
+    fontWeight: '700',
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: '#EDF2D7',
-    borderRadius: '10px',
-    padding: '10px',
-    marginBottom: '10px',
-    fontFamily: "Plus Jakarta Sans",
-    width: '90%',
-  },
-  bidAmount: {
-    color: '#1F4F2E',
-    fontSize: '25px',
-    fontFamily: 'Plus Jakarta Sans',
-    fontWeight: 700,
-    wordWrap: 'break-word',
-    marginRight: '10px',
-  },
-  bidder: {
-    color: '#1F4F2E',
-    fontSize: '12px',
-    fontFamily: 'Plus Jakarta Sans',
-    fontWeight: 700,
-    wordWrap: 'break-word',
-    marginRight: 'auto',
-  },
-  bidActions: {
-    display: 'flex',
-    gap: '10px',
-  },
-  acceptButton: {
-    backgroundColor: '#5cb85c',
-    border: 'none',
-    borderRadius: '50%',
-    width: '30px',
-    height: '30px',
-    color: 'white',
-    cursor: 'pointer',
-    fontFamily: "Plus Jakarta Sans",
-  },
-  rejectButton: {
-    backgroundColor: '#d9534f',
-    border: 'none',
-    borderRadius: '50%',
-    width: '30px',
-    height: '30px',
-    color: 'white',
-    cursor: 'pointer',
-    fontFamily: "Plus Jakarta Sans",
-  },
+    justifyContent: 'center',
+    marginBottom: '10px'
+  }
 };
