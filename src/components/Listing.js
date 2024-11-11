@@ -42,7 +42,7 @@ export default function Listing() {
         </div>
 
         <div style={styles.imageContainer}>
-            <img src="/images/MainPic.webp" alt="Bomber Jacket" style={styles.image} />
+            <img src={listing.photos ? listing.photos[0] : "/images/MainPic.webp"} alt="Bomber Jacket" style={styles.image} />
         </div>
 
         {/* Thumbnails container */}

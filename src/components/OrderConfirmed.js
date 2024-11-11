@@ -53,7 +53,7 @@ export default function PlaceBid() {
                 <h2 style={styles.title}>{title ? title : "yeezy foam runner"}</h2>
                 <h2 style={styles.price}>${price ? price : "234"}</h2>
                 <h2 style={styles.statusMessage}>
-                your order has been accepted and we will be in contact with you
+                your order has been confirmed and we will be in contact with you
                 </h2>
                 <div style={styles.statusBadge}>status: processing</div>
             </div>

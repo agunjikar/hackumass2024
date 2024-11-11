@@ -80,7 +80,7 @@ const [wishlistItems, setWishlistItems] = useState([]);
           <WishlistItem 
             id={item._id}
             key={index}
-            imagePath={item.imagePath} 
+            imagePath={item.photos[0] ? item.photos[0] : "images/black-jacket.png"} 
             name={item.title} 
             price={item.price} 
             description={item.description}
@@ -115,7 +115,7 @@ function WishlistItem({ id, imagePath, name, price, description, tags }) {
   return (
     <div style={styles.itemContainer}>
       <div style={styles.imageContainer}>
-        <img src="images/black-jacket.png" alt={name} style={styles.itemImage} />
+        <img src={imagePath} alt={name} style={styles.itemImage} />
       </div>
       <div style={styles.buttonsContainer}>
         <button style={styles.view} onClick={() => {
@@ -230,7 +230,8 @@ const styles = {
     cursor: 'pointer',
   },
   productInfo: {
-    marginLeft: '7%',
+    margin: 'auto',
+    textAlign: 'center',
   },
   productName: {
     color: '#FFF',

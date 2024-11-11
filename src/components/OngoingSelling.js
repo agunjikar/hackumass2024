@@ -127,18 +127,18 @@ export default function OngoingSelling() {
           return (
             <div style={styles.listing} onClick={handleListingClick}>
   <div style={styles.listingInline}>
-    <img src="images/black-jacket.png" style={styles.listingImage} alt="listingImage" />
+    <img src={listing.photos[0] ? listing.photos[0] : "images/black-jacket.png"} style={styles.listingImage} alt="listingImage" />
     <div style={styles.listingDetails}>
       <div style={styles.headerComponent}>
         <p style={styles.listingTitle}>{listing.title}</p>
         <img
-          src={isChevronUp ? 'images/chevron-up.svg' : 'images/chevron-down.svg'}
+          src={isChevronUp ? 'images/chevron-down.svg' : 'images/chevron-up.svg'}
           style={styles.heartIcon}
           alt="chevron-icon"
         />
       </div>
       <p style={styles.listingPrice}>${listing.price}</p>
-      <p style={styles.listingDescription}>${listing.description}</p>
+      <p style={styles.listingDescription}>{listing.description}</p>
       {/* <div style={styles.tags}>
           {   
               listing.tags.map((tag, index) => {

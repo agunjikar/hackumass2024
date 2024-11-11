@@ -131,7 +131,7 @@ export default function Discovery() {
                     listings && listings.map((listing, index) => {
                         return (
                             <div style={styles.listing} key={index}>
-                                <img src="images/black-jacket.png" style={styles.listingImage} alt='listingImage' />
+                                <img src={listing.photos ? listing.photos[0] : "images/black-jacket.png"} style={styles.listingImage} alt='listingImage' />
                                 <div style={styles.listingDetails}>
                                     <div style={styles.headerComponent}>
                                         <p style={styles.listingTitle} onClick={() => {

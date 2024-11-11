@@ -107,6 +107,7 @@ router.get('/listings', async (req, res) => {
             query.price = 0
         }
     }
+    query.status = 'unsold'
     let listings = await Listing.find(query)
     res.json({
         listings: listings,

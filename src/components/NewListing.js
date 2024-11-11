@@ -74,7 +74,7 @@ export default function NewListing() {
 
   // Function to handle listing item
   const handleListItem = () => {
-    if (!title || !description || !condition || !size || !tags || !price) {
+    if (!title || !description || !condition || !size || !tags) {
       notyf.error('Please fill all the fields');
       return;
     }
